@@ -1,0 +1,878 @@
+﻿@{
+    ViewBag.Title = "QT_NoiDung";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    // Get current page size from request
+    string currentPageSize = ViewContext.HttpContext.Request.Query["pageSize"].ToString();
+    if (string.IsNullOrEmpty(currentPageSize))
+    {
+        currentPageSize = "100";
+    }
+}
+
+<div class="d-flex justify-content-end mb-3" style="gap:10px;">
+    <button class="btn btn-success">
+        <i class="fas fa-photo-video"></i> Media
+    </button>
+    <a href="@Url.Action("Add_NoiDung", "Add_NoiDung")" class="btn btn-danger">
+        <i class="fas fa-plus"></i> Thêm mới
+    </a>
+    <button class="btn btn-warning">
+        <i class="fas fa-check"></i> Duyệt tin
+    </button>
+</div>
+<div class="p-2" style="background:#f6fffc; border-radius:6px; display:flex; align-items:center; justify-content:space-between;">
+    <div class="d-flex align-items-center" style="gap:8px;">
+        <span>Hiển thị</span>
+        <form method="get" id="pageSizeForm" style="display:inline;">
+            <input type="hidden" name="searchTerm" value="@ViewBag.SearchTerm" />
+            <input type="hidden" name="sortColumn" value="@ViewBag.SortColumn" />
+            <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection" />
+            <input type="hidden" name="page" value="1" />
+            <select name="pageSize" class="form-control" style="width:80px;display:inline-block;" onchange="document.getElementById('pageSizeForm').submit();">
+                @{
+                    var options = new string[] {"10", "25", "50", "100"};
+                }
+                @foreach (var option in options)
+                {
+                    if (currentPageSize == option)
+                    {
+                        @Html.Raw($"<option value=\"{option}\" selected>{option}</option>")
+                    }
+                    else
+                    {
+                        @Html.Raw($"<option value=\"{option}\">{option}</option>")
+                    }
+                }
+            </select>
+        </form>
+        <span>kết quả</span>
+    </div>
+    <div style="flex:1; text-align:center;">
+        <form method="get" id="searchForm" style="display:inline;">
+            <input type="hidden" name="pageSize" value="@currentPageSize" />
+            <input type="hidden" name="sortColumn" value="@ViewBag.SortColumn" />
+            <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection" />
+            <input type="hidden" name="page" value="1" />
+            <div class="input-group" style="width:300px;display:inline-flex;">
+                <input type="text" name="searchTerm" class="form-control" id="searchInput"
+                       value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm theo tiêu đề, nội dung..." />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm as string))
+                    {
+                        <button class="btn btn-outline-danger" type="button" id="clearSearchBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex align-items-center" style="gap:6px;">
+        <span>Giảm bớt cột:</span>
+        <button class="btn btn-info btn-sm toggle-column" data-column="ord" id="btn-ord">ORD</button>
+        <button class="btn btn-info btn-sm toggle-column" data-column="tieude" id="btn-tieude">Tiêu đề</button>
+        <button class="btn btn-info btn-sm toggle-column" data-column="thoigian" id="btn-thoigian">Thời gian</button>
+        <button class="btn btn-info btn-sm toggle-column" data-column="chucnang" id="btn-chucnang">Chức năng</button>
+    </div>
+</div>
+@model List<QT_ChoiXanh_2.Models.NoiDungItem>
+
+@{
+    string currentSortColumn = ViewBag.SortColumn as string ?? "ord";
+    string currentSortDirection = ViewBag.SortDirection as string ?? "asc";
+
+    // Helper function để tạo sort URL
+    Func<string, string> GetSortUrl = (columnName) =>
+    {
+        string newDirection = "asc";
+        if (currentSortColumn == columnName && currentSortDirection == "asc")
+        {
+            newDirection = "desc";
+        }
+        return Url.Action("QT_NoiDung", "QT_NoiDung", new
+        {
+            sortColumn = columnName,
+            sortDirection = newDirection,
+            pageSize = ViewBag.PageSize,
+            searchTerm = ViewBag.SearchTerm,
+            page = 1
+        });
+    };
+
+    // Helper function để lấy sort icon
+    Func<string, string> GetSortIcon = (columnName) =>
+    {
+        if (currentSortColumn != columnName)
+        {
+            return "fas fa-sort";
+        }
+        return currentSortDirection == "asc" ? "fas fa-sort-up" : "fas fa-sort-down";
+    };
+}
+
+<table class="table table-bordered table-hover" id="dataTable">
+    <thead>
+        <tr>
+            <th class="col-ord sortable-header" style="background:red;color:white;">
+                <a href="@GetSortUrl("ord")" class="sort-link">
+                    ORD
+                    <i class="@GetSortIcon("ord")" style="margin-left: 5px;"></i>
+                </a>
+            </th>
+            <th class="col-tieude sortable-header" style="background:#2196f3;color:white;">
+                <a href="@GetSortUrl("tieude")" class="sort-link">
+                    Tiêu đề
+                    <i class="@GetSortIcon("tieude")" style="margin-left: 5px;"></i>
+                </a>
+            </th>
+            <th class="col-thoigian sortable-header" style="background:#2196f3;color:white;">
+                <a href="@GetSortUrl("thoigian")" class="sort-link">
+                    Thời gian
+                    <i class="@GetSortIcon("thoigian")" style="margin-left: 5px;"></i>
+                </a>
+            </th>
+            <th class="col-chucnang" style="background:#2196f3;color:white;">Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col-ord">
+                        <div class="ord-edit-container" data-id="@item.id">
+                            <span class="ord-display">@item.ord</span>
+                            <input type="number" class="ord-input form-control"
+                                   value="@item.ord"
+                                   style="display:none; width:60px; padding:2px 5px;"
+                                   min="0" max="9999" />
+                            <div class="ord-buttons" style="display:none; margin-top:2px;">
+                                <button class="btn btn-success btn-xs ord-save" title="Lưu">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-secondary btn-xs ord-cancel" title="Hủy">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-tieude">
+                        <i class="fas fa-file-alt"></i>
+                        <a href="#">@item.tieude</a>
+                    </td>
+                    <td class="col-thoigian">@item.thoigian</td>
+                    <td class="col-chucnang">
+                        <button class="btn btn-info btn-sm"><i class="fas fa-download"></i></button>
+                        <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm as string))
+                    {
+                        <span>Không tìm thấy kết quả nào cho từ khóa: "<strong>@ViewBag.SearchTerm</strong>"</span>
+                    }
+                    else
+                    {
+                        <span>Không có dữ liệu</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    int startRecord = ViewBag.StartRecord ?? 0;
+    int endRecord = ViewBag.EndRecord ?? 0;
+    int totalRecords = ViewBag.TotalRecords ?? 0;
+    bool hasPreviousPage = ViewBag.HasPreviousPage ?? false;
+    bool hasNextPage = ViewBag.HasNextPage ?? false;
+}
+
+<div class="p-2" style="background:#f6fffc; border-radius:6px; display:flex; align-items:center; justify-content:space-between;">
+    <span>
+        Hiển thị @startRecord đến @endRecord [@totalRecords]
+        @if (!string.IsNullOrEmpty(ViewBag.SearchTerm as string))
+        {
+            <span style="color: #007bff;"> - Tìm kiếm: "@ViewBag.SearchTerm"</span>
+        }
+        @if (currentSortColumn != "ord" || currentSortDirection != "asc")
+        {
+            <span style="color: #28a745;"> - Sắp xếp: @(currentSortColumn == "ord" ? "ORD" : currentSortColumn == "tieude" ? "Tiêu đề" : "Thời gian") (@(currentSortDirection == "asc" ? "Tăng dần" : "Giảm dần"))</span>
+        }
+    </span>
+    <div class="d-flex align-items-center" style="gap:10px;">
+        @if (hasPreviousPage)
+        {
+            <a href="@Url.Action("QT_NoiDung", "QT_NoiDung", new {
+                page = currentPage - 1,
+                pageSize = ViewBag.PageSize,
+                searchTerm = ViewBag.SearchTerm,
+                sortColumn = ViewBag.SortColumn,
+                sortDirection = ViewBag.SortDirection })"
+               class="pagination-link" style="text-decoration: none; color: #007bff;">
+                Trước
+            </a>
+        }
+        else
+        {
+            <span style="color: #6c757d;">Trước</span>
+        }
+
+        <form method="get" id="pageForm" style="display:inline;">
+            <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+            <input type="hidden" name="searchTerm" value="@ViewBag.SearchTerm" />
+            <input type="hidden" name="sortColumn" value="@ViewBag.SortColumn" />
+            <input type="hidden" name="sortDirection" value="@ViewBag.SortDirection" />
+            <input type="text" name="page" class="form-control" id="pageInput"
+                   style="width:50px;display:inline-block;text-align:center;"
+                   value="@currentPage"
+                   min="1" max="@totalPages"
+                   onchange="validateAndSubmitPage()" />
+        </form>
+
+        @if (hasNextPage)
+        {
+            <a href="@Url.Action("QT_NoiDung", "QT_NoiDung", new {
+                page = currentPage + 1,
+                pageSize = ViewBag.PageSize,
+                searchTerm = ViewBag.SearchTerm,
+                sortColumn = ViewBag.SortColumn,
+                sortDirection = ViewBag.SortDirection })"
+               class="pagination-link" style="text-decoration: none; color: #007bff;">
+                Kế
+            </a>
+        }
+        else
+        {
+            <span style="color: #6c757d;">Kế</span>
+        }
+    </div>
+</div>
+
+<!-- Page info -->
+@if (totalPages > 1)
+{
+    <div class="p-2" style="background:#e9ecef; border-radius:6px; margin-top:5px; text-align:center;">
+        <span style="font-size: 0.9em; color: #495057;">
+            Trang @currentPage / @totalPages
+            @{
+                if (totalPages > 1)
+                {
+                    <span>
+                        -
+                        @{
+                            if (currentPage > 1)
+                            {
+                                <a href="@Url.Action("QT_NoiDung", "QT_NoiDung", new {
+                                    page = 1,
+                                    pageSize = ViewBag.PageSize,
+                                    searchTerm = ViewBag.SearchTerm,
+                                    sortColumn = ViewBag.SortColumn,
+                                    sortDirection = ViewBag.SortDirection })"
+                                   style="color: #007bff; text-decoration: none;">Trang đầu</a>
+                            }
+                            if (currentPage < totalPages)
+                            {
+                                if (currentPage > 1)
+                                {
+                                    <span> | </span>
+                                }
+                                <a href="@Url.Action("QT_NoiDung", "QT_NoiDung", new {
+                                    page = totalPages,
+                                    pageSize = ViewBag.PageSize,
+                                    searchTerm = ViewBag.SearchTerm,
+                                    sortColumn = ViewBag.SortColumn,
+                                    sortDirection = ViewBag.SortDirection })"
+                                   style="color: #007bff; text-decoration: none;">Trang cuối</a>
+                            }
+                        }
+                    </span>
+                }
+            }
+        </span>
+    </div>
+}
+
+<div class="py-2 px-3" style="background:#f5f5f5; border-radius:6px; margin-top:2px;">
+    <label>
+        <input type="radio" name="status" checked /> Đang hoạt động
+    </label>
+    <label class="ml-3">
+        <input type="radio" name="status" /> Ẩn
+    </label>
+    <label class="ml-3">
+        <input type="radio" name="status" /> Tất cả
+    </label>
+</div>
+<div class="mt-2 d-flex justify-content-between align-items-center">
+    <span>Hệ thống quản trị dữ liệu.</span>
+    <span class="font-weight-bold">Phiên bản 5.0.1</span>
+</div>
+
+<style>
+    .btn-hidden {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: white !important;
+    }
+
+    .column-hidden {
+        display: none !important;
+    }
+
+    .input-group {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+    }
+
+        .input-group > .form-control {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            margin-bottom: 0;
+        }
+
+    .input-group-append {
+        margin-left: -1px;
+        display: flex;
+    }
+
+        .input-group-append .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+    #searchInput:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    .search-highlight {
+        background-color: #fff3cd;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+
+    .pagination-link:hover {
+        text-decoration: underline !important;
+        color: #0056b3 !important;
+    }
+
+    #pageInput:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    /* Keyboard navigation styles */
+    .pagination-link:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+
+    /* Sortable header styles */
+    .sortable-header {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+    }
+
+    .sort-link {
+        color: white !important;
+        text-decoration: none !important;
+        display: block;
+        padding: 8px;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.2s ease;
+    }
+
+        .sort-link:hover {
+            color: white !important;
+            text-decoration: none !important;
+            opacity: 0.9;
+        }
+
+        .sort-link:focus {
+            color: white !important;
+            text-decoration: none !important;
+            outline: 2px solid rgba(255,255,255,0.5);
+            outline-offset: -2px;
+        }
+
+    /* Sort icons */
+    .fa-sort {
+        opacity: 0.5;
+        transition: opacity 0.2s;
+    }
+
+    .sortable-header:hover .fa-sort {
+        opacity: 1;
+    }
+
+    .fa-sort-up, .fa-sort-down {
+        opacity: 1;
+        color: #ffd700;
+    }
+
+    /* Animation cho sort icons */
+    .sortable-header i {
+        transition: transform 0.2s ease;
+    }
+
+    .sortable-header:hover i {
+        transform: scale(1.1);
+    }
+
+    /* Đảm bảo màu background của header không thay đổi */
+    .col-ord.sortable-header {
+        background: red !important;
+    }
+
+    .col-tieude.sortable-header,
+    .col-thoigian.sortable-header {
+        background: #2196f3 !important;
+    }
+
+    .col-ord.sortable-header:hover {
+        background: red !important;
+    }
+
+    .col-tieude.sortable-header:hover,
+    .col-thoigian.sortable-header:hover {
+        background: #2196f3 !important;
+    }
+
+    /* LOẠI BỎ BACKGROUND XÁM CỦA ADMINLTE */
+    #dataTable tbody tr {
+        background-color: transparent !important;
+    }
+
+        #dataTable tbody tr:nth-child(even) {
+            background-color: transparent !important;
+        }
+
+        #dataTable tbody tr:hover {
+            background-color: rgba(0,0,0,0.05) !important;
+        }
+
+    #dataTable {
+        background-color: transparent !important;
+    }
+
+        #dataTable td {
+            background-color: transparent !important;
+        }
+
+    .table {
+        background-color: transparent !important;
+    }
+
+        .table > tbody > tr > td {
+            background-color: transparent !important;
+        }
+
+        .table > thead > tr > th {
+            border-bottom: 2px solid #dee2e6 !important;
+        }
+
+    .table-bordered {
+        border: 1px solid #dee2e6 !important;
+    }
+
+        .table-bordered > tbody > tr > td,
+        .table-bordered > tbody > tr > th,
+        .table-bordered > thead > tr > td,
+        .table-bordered > thead > tr > th {
+            border: 1px solid #dee2e6 !important;
+        }
+
+    .content-wrapper {
+        background-color: #ffffff !important;
+    }
+
+    .container-fluid {
+        background-color: transparent !important;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: rgba(0,123,255,0.1) !important;
+    }
+
+    /* ORD INLINE EDIT STYLES */
+    .ord-edit-container {
+        position: relative;
+        min-height: 25px;
+    }
+
+    .ord-display {
+        cursor: pointer;
+        padding: 2px 5px;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+        display: inline-block;
+        min-width: 30px;
+        text-align: center;
+    }
+
+    .ord-display:hover {
+        background-color: #f8f9fa;
+        border: 1px dashed #007bff;
+    }
+
+    .ord-input {
+        font-size: 12px;
+        text-align: center;
+        border: 2px solid #007bff;
+    }
+
+    .ord-input:focus {
+        border-color: #0056b3;
+        box-shadow: 0 0 5px rgba(0,123,255,.3);
+    }
+
+    .ord-buttons {
+        display: flex;
+        gap: 2px;
+        justify-content: center;
+    }
+
+    .btn-xs {
+        padding: 1px 5px;
+        font-size: 11px;
+        line-height: 1.2;
+        border-radius: 2px;
+    }
+
+    .ord-save {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+
+    .ord-cancel {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+    /* Loading state */
+    .ord-loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .ord-loading:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 16px;
+        height: 16px;
+        margin: -8px 0 0 -8px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Tooltip */
+    .ord-display[title] {
+        position: relative;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        // Khởi tạo trạng thái các cột (tất cả đều hiển thị)
+        var columnStates = {
+            'ord': true,
+            'tieude': true,
+            'thoigian': true,
+            'chucnang': true
+        };
+
+        // Xử lý sự kiện click cho các nút toggle column
+        $('.toggle-column').click(function () {
+            var columnName = $(this).data('column');
+            var button = $(this);
+
+            // Đổi trạng thái cột
+            columnStates[columnName] = !columnStates[columnName];
+
+            // Ẩn/hiện cột trong bảng
+            if (columnStates[columnName]) {
+                // Hiển thị cột
+                $('.col-' + columnName).removeClass('column-hidden');
+                button.removeClass('btn-danger').addClass('btn-info');
+            } else {
+                // Ẩn cột
+                $('.col-' + columnName).addClass('column-hidden');
+                button.removeClass('btn-info').addClass('btn-danger');
+            }
+        });
+
+        // Xử lý tìm kiếm khi nhấn Enter
+        $('#searchInput').keypress(function (e) {
+            if (e.which == 13) {
+                $('#searchForm').submit();
+            }
+        });
+
+        // Xử lý nút xóa tìm kiếm
+        $('#clearSearchBtn').click(function () {
+            window.location.href = '@Url.Action("QT_NoiDung", "QT_NoiDung")' +
+                                   '?pageSize=' + '@currentPageSize';
+        });
+
+        // Highlight search term trong kết quả
+        var searchTerm = '@Html.Raw(ViewBag.SearchTerm)';
+        if (searchTerm && searchTerm.length > 0) {
+            highlightSearchTerm(searchTerm);
+        }
+
+        // Function để highlight từ khóa tìm kiếm
+        function highlightSearchTerm(term) {
+            if (!term) return;
+
+            $('#dataTable tbody td').each(function() {
+                var text = $(this).html();
+                if (text && text.toLowerCase().indexOf(term.toLowerCase()) !== -1) {
+                    var regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                    var newText = text.replace(regex, '<span class="search-highlight">$1</span>');
+                    $(this).html(newText);
+                }
+            });
+        }
+
+        // Auto focus vào search input nếu đang có search term
+        if (searchTerm && searchTerm.length > 0) {
+            $('#searchInput').focus();
+        }
+
+        // Xử lý phím tắt cho phân trang
+        $(document).keydown(function(e) {
+            // Alt + Left Arrow = Previous page
+            if (e.altKey && e.keyCode == 37) {
+                @if (hasPreviousPage) {
+                    <text>
+                    window.location.href = '@Url.Action("QT_NoiDung", "QT_NoiDung", new {
+                        page = currentPage - 1,
+                        pageSize = ViewBag.PageSize,
+                        searchTerm = ViewBag.SearchTerm,
+                        sortColumn = ViewBag.SortColumn,
+                        sortDirection = ViewBag.SortDirection })';
+                    </text>
+                }
+                e.preventDefault();
+            }
+            // Alt + Right Arrow = Next page
+            else if (e.altKey && e.keyCode == 39) {
+                @if (hasNextPage) {
+                    <text>
+                    window.location.href = '@Url.Action("QT_NoiDung", "QT_NoiDung", new {
+                        page = currentPage + 1,
+                        pageSize = ViewBag.PageSize,
+                        searchTerm = ViewBag.SearchTerm,
+                        sortColumn = ViewBag.SortColumn,
+                        sortDirection = ViewBag.SortDirection })';
+                    </text>
+                }
+                e.preventDefault();
+            }
+        });
+
+        // Auto-submit khi nhấn Enter trong page input
+        $('#pageInput').keypress(function (e) {
+            if (e.which == 13) {
+                validateAndSubmitPage();
+            }
+        });
+
+        // Keyboard support cho sorting
+        $('.sort-link').keypress(function(e) {
+            if (e.which == 13 || e.which == 32) { // Enter hoặc Space
+                window.location.href = $(this).attr('href');
+                e.preventDefault();
+            }
+        });
+
+        // Tooltip cho sort headers
+        $('.sortable-header').attr('title', 'Click để sắp xếp');
+
+        // ===========================================
+        // ORD INLINE EDIT FUNCTIONALITY
+        // ===========================================
+
+        // Click vào ORD để edit
+        $(document).on('click', '.ord-display', function() {
+            var container = $(this).closest('.ord-edit-container');
+            var display = container.find('.ord-display');
+            var input = container.find('.ord-input');
+            var buttons = container.find('.ord-buttons');
+
+            // Chuyển sang mode edit
+            display.hide();
+            input.show().focus().select();
+            buttons.show();
+
+            // Set tooltip
+            display.attr('title', 'Click để chỉnh sửa ORD');
+        });
+
+        // Lưu thay đổi ORD
+        $(document).on('click', '.ord-save', function() {
+            var container = $(this).closest('.ord-edit-container');
+            var display = container.find('.ord-display');
+            var input = container.find('.ord-input');
+            var buttons = container.find('.ord-buttons');
+            var itemId = container.data('id');
+            var newOrd = input.val();
+            var originalOrd = display.text();
+
+            // Validation
+            if (!newOrd || newOrd.trim() === '') {
+                alert('Vui lòng nhập giá trị ORD!');
+                input.focus();
+                return;
+            }
+
+            if (isNaN(newOrd) || parseInt(newOrd) < 0) {
+                alert('ORD phải là số nguyên dương!');
+                input.focus();
+                return;
+            }
+
+            // Không thay đổi thì cancel
+            if (newOrd === originalOrd) {
+                cancelOrdEdit(container);
+                return;
+            }
+
+            // Show loading
+            container.addClass('ord-loading');
+
+            // Call API
+            $.ajax({
+                url: '@Url.Action("UpdateOrd", "QT_NoiDung")',
+                type: 'POST',
+                data: {
+                    id: itemId,
+                    newOrd: newOrd
+                },
+                success: function(response) {
+                    container.removeClass('ord-loading');
+
+                    if (response.success) {
+                        // Cập nhật UI
+                        display.text(response.newOrd).show();
+                        input.hide();
+                        buttons.hide();
+
+                        // Show success message
+                        showNotification('Cập nhật ORD thành công!', 'success');
+
+                        // Highlight briefly
+                        display.css('background-color', '#d4edda')
+                               .animate({backgroundColor: 'transparent'}, 2000);
+                    } else {
+                        showNotification(response.message || 'Không thể cập nhật ORD!', 'error');
+                        input.focus();
+                    }
+                },
+                error: function() {
+                    container.removeClass('ord-loading');
+                    showNotification('Lỗi kết nối! Vui lòng thử lại.', 'error');
+                    input.focus();
+                }
+            });
+        });
+
+        // Hủy chỉnh sửa ORD
+        $(document).on('click', '.ord-cancel', function() {
+            var container = $(this).closest('.ord-edit-container');
+            cancelOrdEdit(container);
+        });
+
+        // Nhấn Enter để lưu, Escape để hủy
+        $(document).on('keydown', '.ord-input', function(e) {
+            if (e.which === 13) { // Enter
+                $(this).siblings('.ord-buttons').find('.ord-save').click();
+            } else if (e.which === 27) { // Escape
+                $(this).siblings('.ord-buttons').find('.ord-cancel').click();
+            }
+        });
+
+        // Function để cancel edit
+        function cancelOrdEdit(container) {
+            var display = container.find('.ord-display');
+            var input = container.find('.ord-input');
+            var buttons = container.find('.ord-buttons');
+
+            // Reset input value
+            input.val(display.text());
+
+            // Switch back to display mode
+            display.show();
+            input.hide();
+            buttons.hide();
+        }
+
+        // Function để hiển thị notification
+        function showNotification(message, type) {
+            var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            var notification = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert" style="position:fixed;top:20px;right:20px;z-index:9999;min-width:300px;">' +
+                                message +
+                                '<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>' +
+                                '</div>');
+
+            $('body').append(notification);
+
+            // Auto hide after 3 seconds
+            setTimeout(function() {
+                notification.alert('close');
+            }, 3000);
+        }
+
+        // Add tooltips for ORD displays
+        $('.ord-display').attr('title', 'Click để chỉnh sửa ORD');
+    });
+
+    // Validate page number và submit
+    function validateAndSubmitPage() {
+        var pageInput = document.getElementById('pageInput');
+        var pageValue = parseInt(pageInput.value);
+        var maxPage = @(ViewBag.TotalPages ?? 1);
+
+        if (isNaN(pageValue) || pageValue < 1) {
+            pageInput.value = 1;
+        } else if (pageValue > maxPage) {
+            pageInput.value = maxPage;
+        }
+
+        // Submit form
+        document.getElementById('pageForm').submit();
+    }
+</script>

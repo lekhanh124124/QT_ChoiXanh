@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Công ty Chồi Xanh Media - Quản trị</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Các link CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-shims.min.css" media="all">
+    <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-font-face.min.css" media="all">
+    <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/fullcalendar@5.11.3/main.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker@2.1.25/daterangepicker.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.4/css/colReorder.dataTables.min.css">
+    <link rel="stylesheet" href="/plugins/morris.js/morris.css">
+    <link rel="stylesheet" href="/plugins/bootstrap-tour-0.12.0buildcss/bootstrap-tour.min.css">
+    <link rel="stylesheet" href="/dist/css/lionbars.css">
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/dist/css/hack-bootstrap-5.css">
+    <link rel="stylesheet" href="/dist/css/index-staff.css?ver=1.16">
+</head>
+<body class="hold-transition skin-green-light sidebar-mini">
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <a href="#" class="logo">
+                <span class="logo-mini"><b>C</b>RM</span>
+                <span class="logo-lg">Software CRM</span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="javascript:void(0)" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Placeholder cho menu header (có thể thay bằng dữ liệu động nếu cần) -->
+                        <li class="dropdown messages-menu">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="label label-success">1</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">Tổng số yêu cầu 1</li>
+                                <li>
+                                    <ul class="list">
+                                        <li>
+                                            <p>
+                                                <i class="fa fa-file-text-o"></i> <a href="/admin/quanlywebsite/yeucau/xem.asp?act=&gdc=&id=65800">Yêu cầu cập nhật thông tin tài khoản</a> [ Cấu hình web, host, ssl, email ]
+                                                <small><i class="fa fa-clock-o"></i> [ 6/8/2025 3:29:35 PM ]</small>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <div class="col-xs-6 text-center"><a href="/admin/quanlywebsite/yeucau/form.asp?gdc=21">Gửi yêu cầu</a></div>
+                                    <div class="col-xs-6 text-center"><a href="/admin/quanlywebsite/yeucau/list.asp?gdc=21">Toàn bộ</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown notifications-menu">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-users"></i>
+                                <span class="label label-warning"></span>
+                            </a>
+                            <ul class="dropdown-menu thongtincongty">
+                                <li class="header"><h4>Chồi Xanh Trung Tâm</h4></li>
+                                <li>
+                                    <p><i class="fa fa-bell-o"></i> CX-20454</p>
+                                    <p><i class="fa fa-home"></i> www.choixanh.net</p>
+                                    <p><i class="fa fa-university"></i> Vũ Thị Đào</p>
+                                    <p><i class="fa fa-envelope"></i> 345/26 Âu Co, P Phú Trung, Q Tân Phú, TPHCM</p>
+                                    <p><i class="fa fa-phone"></i> 0</p>
+                                    <p><i class="fa fa-envelope-o"></i> info@choixanh.net</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown tasks-menu">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-mobile"></i>
+                                <span class="label label-danger"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header"><h4>Phạm Quốc Đạt</h4></li>
+                                <li>
+                                    <p><i class="fa fa-envelope"></i> 345/26 Âu Cơ, Phường Phú Trung, Quận Tân Phú</p>
+                                    <p><i class="fa fa-phone"></i> 0908279259</p>
+                                    <p><i class="fa fa-envelope-o"></i> dat.pham@choixanh.net</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown tasks-menu">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bar-chart"></i>
+                                <span class="label label-danger"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="thongke">
+                                        <div class="title">Thống kê website</div><table cellspacing="5" cellpadding="0">
+                                            <tr class="lines"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vall.png" alt="Thống kê"></td><td>Ngày hôm nay</td><td align="right"></td></tr>
+                                            <tr class="line"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vyesterday.png" alt="Thống kê"></td><td>Hôm qua</td><td align="right"></td></tr>
+                                            <tr class="lines"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vweek.png" alt="Thống kê"></td><td>Tuần này</td><td align="right"></td></tr>
+                                            <tr class="line"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vlweek.png" alt="Thống kê"></td><td>Tuần trước</td><td align="right"></td></tr>
+                                            <tr class="lines"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vmonth.png" alt="Thống kê"></td><td>Tháng này</td><td align="right"></td></tr>
+                                            <tr class="line"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vlmonth.png" alt="Thống kê"></td><td>Tháng trước</td><td align="right"></td></tr>
+                                            <tr class="lines"><td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vall.png" alt="Thống kê"></td><td>Toàn bộ</td><td align="right"></td></tr>
+                                        </table>
+                                    </div>
+                                    <div class="dungluong">
+                                        <div class="title">Dung lượng hosting</div><table cellspacing="5" cellpadding="0">
+                                            <tr class="line"><td colspan="4">Domain: demodienmay.125.atoz.vn</td></tr>
+                                            <tr class="lines"><td>Ngày kích hoạt</td><td align="right">9/8/2014</td></tr>
+                                            <tr class="line"><td>Ngày hết hạn</td><td align="right">1/6/2026</td></tr>
+                                            <tr class="lines"><td>Dung lượng traffic theo hợp đồng</td><td align="right">.00 MB</td></tr>
+                                            <tr class="line"><td>Dung lượng traffic thực tế</td><td align="right">.00 MB</td></tr>
+                                        </table>
+                                    </div>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left"><a href="/admin/quanlywebsite/thongke/form.asp?gdc=1" class="btn btn-default btn-flat">Chi tiết thống kê</a></div>
+                                    <div class="pull-right"><a href="/admin/youraccount/log.asp?gdc=1" class="btn btn-default btn-flat">Log quản trị</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown user user-menu">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="https://demodienmay.125.atoz.vn/dist/images/user.jpg" class="user-image" alt="Đỗ Thị Hồng Huệ">
+                                <span class="hidden-xs">Đỗ Thị Hồng Huệ</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <a href="/admin/youraccount/info.asp?act=1&gdc=58">
+                                        <img src="https://demodienmay.125.atoz.vn/dist/images/user.jpg" class="img-circle" alt="Đỗ Thị Hồng Huệ">
+                                    </a>
+                                    <p>Đỗ Thị Hồng Huệ</p>
+                                </li>
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-xs-6 text-center">Bắt đầu <b>9/8/2014</b></div>
+                                        <div class="col-xs-6 text-center">Kết thúc <b>1/6/2026</b></div>
+                                    </div>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left"><a href="/admin/youraccount/editpass.asp?gdc=1" class="btn btn-default btn-flat">Mật khẩu</a></div>
+                                    <div class="pull-right"><a href="/admin/login/logout.asp" class="btn btn-default btn-flat">Sign out</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Sidebar -->
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="https://demodienmay.125.atoz.vn/dist/images/user.jpg" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>demodienmay.125.atoz.vn</p>
+                        <a href="/admin/youraccount/log.asp"><i class="fa fa-list-alt"></i> Log</a>
+                    </div>
+                </div>
+                <form class="sidebar-form">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Tìm chức năng..." id="filterpa2">
+                        <span class="input-group-btn">
+                            <button class="btn btn-xs btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <ul class="sidebar-menu tree" id="root_treepa2" data-widget="tree"></ul>
+            </section>
+        </aside>
+
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Phiên bản</b> 5.0.1
+            </div>
+            <strong>Hệ thống quản trị dữ liệu.</strong>
+        </footer>
+
+        <!-- Các phần khác như spinner, modal -->
+        <div class="wrap-spinner">
+            <div class="spinner">
+                <div class="cube1"></div>
+                <div class="cube2"></div>
+            </div>
+        </div>
+        <span class="formthongbaopopupcenter"></span>
+        <span class="formthongbaomoipopup"></span>
+        <span id="boxes" style="display:none"></span>
+        <div class="modal fade" id="thongbaoHeThongModal" tabindex="-1" role="dialog" aria-labelledby="thongbaoHeThongModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                        <h5 class="modal-title" id="thongbaoHeThongModalLabel"></h5>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer box-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="notification" class="notification position-fixed top-0 end-0 bg-primary text-white p-3 m-3 rounded" style="top: 20px; right: 20px; z-index: 999; display:none"></div>
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <!-- Các script JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="/plugins/jquery-ui-touch-punch-master/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="/plugins/font-awesome/d51d9bdc3c.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script src="/plugins/fullcalendar/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker@2.1.25/daterangepicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.0/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.min.js"></script>
+    <script src="/plugins/colResizable-master/colResizable-1.6.min.js"></script>
+    <script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/plugins/fastclick/fastclick.min.js"></script>
+    <script src="/plugins/canvasjs/jquery.canvasjs.min.js"></script>
+    <script src="/dist/js/jquery.timeago.js"></script>
+    <script src="/dist/js/timeago.js"></script>
+    <script src="/dist/js/lionbars.js"></script>
+    <script src="/dist/js/adminlte.js"></script>
+    <script src="/dist/js/raphael-min.js"></script>
+    <script src="/plugins/morris.js/morris.min.js"></script>
+    <script src="/dist/js/staff.cx.js"></script>
+    <script src="/dist/js/clipboard.min.js"></script>
+    <script>
+        var clipboard = new Clipboard('.btn');
+        clipboard.on('success', function(e) {});
+        clipboard.on('error', function(e) {
+            alert('Lỗi hệ thống, không copy được');
+        });
+    </script>
+    <script src="/checkstatus/hosting.asp"></script>
+    <script>
+                          document.addEventListener('DOMContentLoaded', function () {
+            // Thêm CSS cho highlight
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .sidebar-menu .active {
+                    background-color: #ff0; /* Màu vàng cho highlight */
+                    color: #000;
+                }
+                .sidebar-menu .treeview.active > a {
+                    background-color: transparent; /* Tránh highlight menu cha */
+                }
+                .sidebar-menu .treeview-menu {
+                    display: none; /* Ẩn menu con mặc định */
+                }
+            `;
+            document.head.appendChild(style);
+
+            function generateMenu(menuData) {
+                const ul = document.querySelector('#root_treepa2');
+                ul.innerHTML = '';
+                const currentPath = window.location.pathname.toLowerCase();
+
+                menuData.forEach(item => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    const i = document.createElement('i');
+                    const span = document.createElement('span');
+
+                    // Không sử dụng lcss từ JSON để tránh tất cả đều active
+                    li.className = item.lcss?.trim().replace('active', '') || '';
+                    a.className = item.acss?.trim() || '';
+                    a.href = item.link || '#';
+                    i.className = item.name.includes('Home') && item.icss === 'fa-home' ? 'fa fa-home' : (item.icss || '');
+                    i.setAttribute('aria-hidden', 'true');
+                    span.innerHTML = item.name || '';
+                    a.appendChild(i);
+                    a.appendChild(span);
+                    li.appendChild(a);
+
+                    let isActive = false;
+                    let subUl = null; // Khởi tạo subUl để tránh lỗi
+
+                    if (item.sub && Array.isArray(item.sub)) {
+                        subUl = document.createElement('ul');
+                        subUl.className = 'treeview-menu';
+
+                        item.sub.forEach(subItem => {
+                            const subLi = document.createElement('li');
+                            const subA = document.createElement('a');
+                            const subI = document.createElement('i');
+                            const subSpan = document.createElement('span');
+
+                            subLi.className = subItem.lcss?.trim().replace('active', '') || '';
+                            subA.className = subItem.acss?.trim() || '';
+                            subA.href = subItem.link || '#';
+                            subI.className = subItem.icss || '';
+                            subI.setAttribute('aria-hidden', 'true');
+                            subSpan.innerHTML = subItem.name || '';
+                            subA.appendChild(subI);
+                            subA.appendChild(subSpan);
+                            subLi.appendChild(subA);
+                            subUl.appendChild(subLi);
+
+                            // Kiểm tra đường dẫn chính xác
+                            const subPath = new URL(subItem.link, window.location.origin).pathname.toLowerCase();
+                            if (currentPath === subPath) {
+                                subLi.classList.add('active'); // Highlight mục con
+                                li.classList.add('menu-open'); // Mở rộng menu cha
+                                isActive = true;
+                            }
+                        });
+
+                        li.appendChild(subUl);
+                    } else {
+                        const itemPath = new URL(item.link, window.location.origin).pathname.toLowerCase();
+                        if (currentPath === itemPath) {
+                            li.classList.add('active'); // Highlight mục chính
+                            a.classList.add('active');
+                            isActive = true;
+                        }
+                    }
+
+                    if (item.sub) {
+                        li.className = li.className ? `${li.className} treeview` : 'treeview';
+                        if (isActive && subUl && typeof jQuery !== 'undefined') {
+                            console.log('Opening menu for:', item.name); // Debug
+                            $(subUl).slideDown(300); // Hiển thị menu con với hiệu ứng slideDown
+                        }
+                    }
+
+                    ul.appendChild(li);
+                });
+
+                // Khởi tạo AdminLTE sidebar sau khi render menu
+                if (typeof jQuery !== 'undefined' && $.AdminLTE) {
+                    console.log('Initializing AdminLTE tree'); // Debug
+                    $.AdminLTE.tree('.sidebar'); // Kích hoạt tree plugin của AdminLTE
+                    // Đảm bảo menu con mở với hiệu ứng khi tải trang
+                    $('.sidebar-menu .menu-open > .treeview-menu').each(function () {
+                        $(this).slideDown(300);
+                    });
+                }
+            }
+
+            // Gọi API để lấy dữ liệu JSON
+            fetch('https://gist.githubusercontent.com/NhatLam71388/4ada169db34207701940ba5e54c97acb/raw/e8e9eb2c70bba2826a2bf78274b830a4346017f5/gistfile1.txt')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => generateMenu(data))
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                    const ul = document.querySelector('#root_treepa2');
+                    ul.innerHTML = '<li><span>Lỗi khi tải dữ liệu menu</span></li>';
+                });
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+

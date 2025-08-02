@@ -1,0 +1,216 @@
+﻿@{
+    ViewData["Title"] = "Quản lý khách đặt hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="tieudechinh">
+    <div class="col-md-8">
+        <section class="content-header"><h1>Quản lý khách đặt hàng</h1></section>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a aria-expanded="true" data-toggle="tab" href="#tab_1">Mới</a></li>
+            <li><a aria-expanded="false" data-toggle="tab" href="#tab_2">Đã xử lý</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab_1" class="tab-pane row wrap-table active">
+                <div class="khung">
+                    <div id="danhsachdonhang_wrapper" class="dataTables_wrapper no-footer">
+                        <div class="right">
+                            Giảm bớt cột:
+                            <a class="toggle-vis btn btn-xs btn-info" data-column="0">ID</a>
+                            <a class="toggle-vis btn btn-xs btn-default" data-column="1">Người mua</a>
+                            <a class="toggle-vis btn btn-xs btn-primary" data-column="2">Thời gian</a>
+                            <a class="toggle-vis btn btn-xs btn-default" data-column="3">Tình trạng</a>
+                            <a class="toggle-vis btn btn-xs btn-info" data-column="4">Chức năng</a>
+                        </div>
+                        <div id="danhsachdonhang_processing" class="dataTables_processing" style="display: none;">Đang xử lý dữ liệu...</div>
+                        <table id="danhsachdonhang" class="display dataTable no-footer" style="width: 100%;" aria-describedby="danhsachdonhang_info">
+                            <thead>
+                                <tr>
+                                    <th class="sorting" data-column-index="0" aria-label="ID: Sắp xếp tăng dần">ID</th>
+                                    <th class="sorting" data-column-index="1" aria-label="Người mua: Sắp xếp tăng dần">Người mua</th>
+                                    <th class="sorting sorting_desc" data-column-index="2" aria-label="Thời gian: Sắp xếp tăng dần">Thời gian</th>
+                                    <th class="sorting_disabled" data-column-index="3" aria-label="Tình trạng">Tình trạng</th>
+                                    <th class="sorting_disabled" data-column-index="4" aria-label="Chức năng">Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="dataTables_info" id="danhsachdonhang_info" role="status" aria-live="polite"></div>
+                        <div class="dataTables_paginate paging_simple_numbers" id="danhsachdonhang_paginate"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab_2" class="tab-pane row wrap-table">
+                <div class="khung">
+                    <div id="danhsachxuly_wrapper" class="dataTables_wrapper no-footer">
+                        <div class="right">
+                            Giảm bớt cột:
+                            <a class="toggle-vis btn btn-xs btn-success" data-column="0">ID</a>
+                            <a class="toggle-vis btn btn-xs btn-info" data-column="1">Người mua</a>
+                            <a class="toggle-vis btn btn-xs btn-info" data-column="2">Thời gian</a>
+                            <a class="toggle-vis btn btn-xs btn-success" data-column="3">Giá trị</a>
+                            <a class="toggle-vis btn btn-xs btn-danger" data-column="4">Chức năng</a>
+                        </div>
+                        <div id="danhsachxuly_processing" class="dataTables_processing" style="display: none;">Đang xử lý dữ liệu...</div>
+                        <table id="danhsachxuly" class="display dataTable no-footer" style="width: 100%;" aria-describedby="danhsachxuly_info">
+                            <thead>
+                                <tr>
+                                    <th class="sorting" data-column-index="0" aria-label="ID: Sắp xếp tăng dần">ID</th>
+                                    <th class="sorting" data-column-index="1" aria-label="Người mua: Sắp xếp tăng dần">Người mua</th>
+                                    <th class="sorting sorting_desc" data-column-index="2" aria-label="Thời gian: Sắp xếp tăng dần">Thời gian</th>
+                                    <th class="sorting" data-column-index="3" aria-label="Giá trị: Sắp xếp tăng dần">Giá trị</th>
+                                    <th class="sorting_disabled" data-column-index="4" aria-label="Chức năng">Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="dataTables_info" id="danhsachxuly_info" role="status" aria-live="polite"></div>
+                        <div class="dataTables_paginate paging_simple_numbers" id="danhsachxuly_paginate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span class="formthongbaopopupcenter"></span>
+<span class="formthongbaomoipopup"></span>
+<span id="boxes" style="display:none"></span>
+<div class="modal fade" id="thongbaoHeThongModal" tabindex="-1" role="dialog" aria-labelledby="thongbaoHeThongModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                <h5 class="modal-title" id="thongbaoHeThongModalLabel"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer box-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notification" class="notification position-fixed top-0 end-0 bg-primary text-white p-3 m-3 rounded" style="top: 20px; right: 20px; z-index: 999; display:none"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // DataTable cho tab "Mới"
+            var newOrdersTable = $('#danhsachdonhang').DataTable({
+                "ajax": {
+                    "url": "https://demodienmay.125.atoz.vn/admin/api/danhsachdonhang.asp",
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "sbg" },
+                    { "data": "nguoimua" },
+                    {
+                        "data": "thoigian",
+                        "render": function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data, 'M/D/YYYY h:mm:ss A').format('DD/MM/YYYY HH:mm:ss');
+                            }
+                            return moment(data, 'M/D/YYYY h:mm:ss A').valueOf();
+                        }
+                    },
+                    { "data": "status" },
+                    {
+                        "data": "id",
+                        "render": function(data, type, row) {
+                            var id = row.id;
+                            return `<a href="/Admin/FixOrder?act=4&gdc=4&IDBG=${id}" title="Xử lý đơn hàng" class="btn btn-xs btn-primary"><i class="fa fa-shopping-cart"></i> Xử lý</a>`;
+                        }
+                    }
+                ],
+                "order": [[2, "desc"]],
+                "responsive": true,
+                "pageLength": 100,
+                "searching": true,
+                "ordering": true,
+                "colReorder": true,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ kết quả",
+                    "info": "Hiển thị _START_ đến _END_ [_TOTAL_]",
+                    "processing": "Đang xử lý dữ liệu...",
+                    "emptyTable": "Không có dữ liệu",
+                    "paginate": {
+                        "previous": "Trước",
+                        "next": "Kế"
+                    }
+                }
+            });
+
+            // DataTable cho tab "Đã xử lý"
+            var processedOrdersTable = $('#danhsachxuly').DataTable({
+                "ajax": {
+                    "url": "https://demodienmay.125.atoz.vn/admin/api/danhsachxuly.asp",
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "sbg" },
+                    { "data": "nguoimua" },
+                    {
+                        "data": "thoigian",
+                        "render": function(data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data, 'M/D/YYYY h:mm:ss A').format('DD/MM/YYYY HH:mm:ss');
+                            }
+                            return moment(data, 'M/D/YYYY h:mm:ss A').valueOf();
+                        }
+                    },
+                    {
+                        "data": "giatri",
+                        "render": function(data, type, row) {
+                            if (type === 'display') {
+                                return parseInt(data).toLocaleString('vi-VN');
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        "data": "id",
+                        "render": function(data, type, row) {
+                            var id = row.id;
+                            return `<a href="/Admin/ViewOrder?act=4&gdc=4&id=${id}" title="Xem phiếu" class="btn btn-xs btn-success"><i class="fa fa-shopping-cart"></i> Xem phiếu</a>`;
+                        }
+                    }
+                ],
+                "order": [[2, "desc"]],
+                "responsive": true,
+                "pageLength": 100,
+                "searching": true,
+                "ordering": true,
+                "colReorder": true,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ kết quả",
+                    "info": "Hiển thị _START_ đến _END_ [_TOTAL_]",
+                    "processing": "Đang xử lý dữ liệu...",
+                    "emptyTable": "Không có dữ liệu",
+                    "paginate": {
+                        "previous": "Trước",
+                        "next": "Kế"
+                    }
+                }
+            });
+
+            // Xử lý bật/tắt cột cho tab "Mới"
+            $('#tab_1 .toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = newOrdersTable.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+
+            // Xử lý bật/tắt cột cho tab "Đã xử lý"
+            $('#tab_2 .toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = processedOrdersTable.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+        });
+    </script>
+}

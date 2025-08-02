@@ -1,0 +1,533 @@
+﻿<div class="tieudechinh">
+    <div class="col-md-8">
+        <section class="content-header"><h1>Quản lý member</h1></section>
+    </div>
+    <div class="col-md-4 pull-right right">
+        <a data-fancybox="" data-type="ajax" data-src="new.asp?act=4&amp;gdc=6" class="btn btn-danger"><i class="fa fa-plus" aria-hidden="true"></i> Thêm mới</a>
+        <a href="down.asp?act=4&amp;gdc=6" class="btn btn-success"><i class="fa fa-sign-out" aria-hidden="true"></i> Export</a>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="khung">
+        <div id="danhsachyeucau_wrapper" class="dataTables_wrapper no-footer">
+            @* <div class="dataTables_length" id="danhsachyeucau_length">
+                <label>
+                    Hiển thị
+                    <select name="danhsachyeucau_length" aria-controls="danhsachyeucau" class="">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="1000">1,000</option>
+                        <option value="10000">10,000</option>
+                    </select> kết quả
+                </label>
+            </div> *@
+            <div id="danhsachyeucau_filter" class="dataTables_filter">
+                @* <label><input type="search" class="" placeholder="" aria-controls="danhsachyeucau" style="max-width: 1506px;"></label> *@
+                <div class="right">Giảm bớt cột: <a class="toggle-vis btn btn-xs btn-info" data-column="0">Tên</a> <a class="toggle-vis btn btn-xs btn-info" data-column="1">Email</a> <a class="toggle-vis btn btn-xs btn-warning" data-column="2">Địa chỉ</a> <a class="toggle-vis btn btn-xs btn-danger" data-column="3">Điện thoại</a> <a class="toggle-vis btn btn-xs btn-info" data-column="4">Ngày</a> </div>
+            </div>
+            <div id="danhsachyeucau_processing" class="dataTables_processing" style="display: none;">Đang xử lý dữ liệu...</div>
+            <table id="danhsachyeucau" class="display dataTable no-footer" style="width: 100%;" aria-describedby="danhsachyeucau_info">
+                <thead>
+                    <tr>
+                        <th class="sorting" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="0" style="width: 172.825px;" aria-label="Tên: Sắp xếp tăng dần">Tên</th>
+                        <th class="sorting sorting_desc" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="1" style="width: 184.312px;" aria-sort="descending" aria-label="Email: Sắp xếp tăng dần">Email</th>
+                        <th class="sorting" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="2" style="width: 393.138px;" aria-label="Địa chỉ: Sắp xếp tăng dần">Địa chỉ</th>
+                        <th class="sorting" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="3" style="width: 55.4px;" aria-label="Điện thoại: Sắp xếp tăng dần">Điện thoại</th>
+                        <th class="sorting" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="4" style="width: 114.787px;" aria-label="Ngày: Sắp xếp tăng dần">Ngày</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1" data-column-index="5" style="width: 189.725px;" aria-label="&amp;nbsp;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+<script>
+    $(document).ready(function () {
+        var columns = [
+            {
+                data: 'ten',
+                render: (data, type, row) => {
+                    let id = row.id;
+                    let ten = row.ten;
+                    let user = row.user;
+                    let trangthai = row.status;
+                    let statusIcon = trangthai == "True"
+                        ? `<a href="javascript:void(0)" class="hidethis" data-id="${id}" title="INACTIVE danh mục"><i class="tdicon fa fa-check-square"></i></a>`
+                        : `<a href="javascript:void(0)" class="showthis" data-id="${id}" title="ACTIVE danh mục"><i class="tdicon fa fa-square"></i></a>`;
+                    return `${statusIcon} <span class="hoten">${ten && ten.trim() !== '' ? ten : user}</span>`;
+                },
+            },
+            { data: 'email' },
+            { data: 'diachi' },
+            { data: 'tel' },
+            { data: 'thoigian' },
+            {
+                data: "id",
+                render: (data, type, row) => {
+                    let id = row.id;
+                    let LoaiKhachHang = row.loai;
+                    let html = `
+                        <a data-fancybox data-type="html" title="Thay đổi mật khẩu tài khoản" class="fancybox fancybox.ajax themmoinhom btn btn-xs btn-primary doi-pass" data-id="${id}"><i class="fa fa-key"></i> Đổi pass</a>
+                        <a data-fancybox data-type="html" title="Cập nhật tài khoản" class="fancybox fancybox.ajax btn btn-xs btn-warning cap-nhat" data-id="${id}"><i class="fa fa-user-edit"></i> Cập nhật</a>
+                        <a data-fancybox data-type="html" title="Xóa tài khoản" class="fancybox fancybox.ajax btn btn-xs btn-danger xoa" data-id="${id}"><i class="fa fa-trash"></i> Xóa</a>
+                    `;
+                    return html;
+                },
+            },
+        ];
+
+        var table = $('#danhsachyeucau').DataTable({
+            ajax: {
+                url: 'https://demodienmay.125.atoz.vn/admin/api/danhmuc.thanhvien.asp',
+                dataSrc: 'data',
+                type: 'GET'
+            },
+            columns: columns,
+            order: [[1, 'desc']],
+            pageLength: 10,
+            processing: true,
+            serverSide: false
+        });
+
+        // Thêm xử lý sự kiện toggle column
+        $('#danhsachyeucau_filter .toggle-vis').on('click', function (e) {
+            e.preventDefault();
+            var columnIdx = $(this).data('column');
+            var column = table.column(columnIdx);
+            column.visible(!column.visible());
+        });
+
+        // Xử lý sự kiện click cho các nút trong bảng
+        $('#danhsachyeucau').on('click', '.doi-pass, .cap-nhat, .xoa', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var id = $this.data('id');
+            var rowData = table.row($this.closest('tr')).data(); // Lấy dữ liệu của hàng được nhấp
+
+            // Tạo nội dung form popup động dựa trên loại hành động
+            var formContent = '';
+            if ($this.hasClass('cap-nhat')) {
+                formContent = `
+                    <section class="content">
+                        <form id="formdulieu">
+                            <div class="box box-info">
+                                <div class="box-header">
+                                    <h3 class="box-title">TÀI KHOẢN ĐĂNG NHẬP</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Username:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="CustomerUsername" maxlength="50" placeholder="User tự động thêm VIP1-768736" value="${rowData.ten || rowData.user || ''}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Password:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" type="password" name="CustomerPassword" maxlength="20">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Tình trạng tài khoản</label>
+                                        <div class="col-sm-10">
+                                            <div class="col-sm-6">
+                                                <input type="radio" name="CustomerStatus" value="1" ${rowData.status == "True" ? 'checked' : ''}>Tài khoản đang hoạt động
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="radio" name="CustomerStatus" value="0" ${rowData.status != "True" ? 'checked' : ''}>Tài khoản lock
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Loại</label>
+                                        <div class="col-sm-10">
+                                            <div class="col-sm-6">
+                                                <input type="radio" name="LoaiKhachHang" value="1" ${rowData.loai == "1" ? 'checked' : ''} required>Đối tác (sử dụng dịch vụ, giới thiệu)
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="radio" name="LoaiKhachHang" value="0" ${rowData.loai != "1" ? 'checked' : ''} required>Khách hàng (đăng tin)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Tình trạng kích hoạt</label>
+                                        <div class="col-sm-10">
+                                            <div class="col-sm-6">
+                                                <input type="radio" name="TrangThaiKichHoat" value="1" ${rowData.trangthai_kich_hoat == "1" ? 'checked' : ''}>Tài khoản đã kích hoạt
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="radio" name="TrangThaiKichHoat" value="0" ${rowData.trangthai_kich_hoat != "1" ? 'checked' : ''}>Tài khoản chưa kích hoạt
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control EmailAddress" name="EmailAddress" maxlength="50" placeholder="Email khách hàng" value="${rowData.email || ''}" required>
+                                    </div>
+                                    <div class="thongbao"></div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="CustomerName" maxlength="255" placeholder="Tên khách hàng" value="${rowData.ten || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="NguoiDaiDien" maxlength="255" placeholder="Người đại diện" value="${rowData.nguoi_dai_dien || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="SoID" maxlength="50" placeholder="Chứng minh nhân dân" value="${rowData.so_id || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="MaDN" maxlength="50" placeholder="Mã số doanh nghiệp / Số giấy CN ĐKKD" value="${rowData.ma_dn || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="MaSoThue" maxlength="50" placeholder="Mã số thuế" value="${rowData.ma_so_thue || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="BirthDay" maxlength="50" placeholder="Ngày sinh" value="${rowData.birthday || ''}" class="form-control input_data_ngay">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="Tel" maxlength="50" placeholder="Điện thoại" value="${rowData.tel || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="Mobile" maxlength="50" placeholder="Di động" value="${rowData.mobile || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="Fax" maxlength="50" placeholder="Fax" value="${rowData.fax || ''}">
+                                    </div>
+                                    <input type="hidden" name="zoom" value="16">
+                                    <div class="form-group">
+                                        <div id="mapSearchInput"></div>
+                                        <input id="txtdiachi" name="txtdiachi" class="form-control" value="${rowData.diachi || ''}" placeholder="Địa chỉ giao dịch chính">
+                                        <input id="hdtdx" name="hdtdx" type="hidden" value="${rowData.hdtdx || ''}">
+                                        <input id="hdtdy" name="hdtdy" type="hidden" value="${rowData.hdtdy || ''}">
+                                        <div id="map_canvas"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="DiaChiGiaoHang" maxlength="50" placeholder="Địa chỉ giao dịch" value="${rowData.diachi_giao_hang || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="DiaChiCongTy" maxlength="50" placeholder="Địa chỉ công ty" value="${rowData.diachi_cong_ty || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="TaiKhoanNganHang" cols="20" rows="4" placeholder="Tài khoản ngân hàng" class="form-control">${rowData.tai_khoan_ngan_hang || ''}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="Facebook" maxlength="50" placeholder="Facebook" value="${rowData.facebook || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="Yahoo" maxlength="50" placeholder="Yahoo" value="${rowData.yahoo || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="MSN" maxlength="50" placeholder="MSN" value="${rowData.msn || ''}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="Skype" maxlength="50" placeholder="Skype" value="${rowData.skype || ''}">
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn pull-right btn-primary nutdangnhap" name="Submit"><i class="fa fa-save" aria-hidden="true"></i> Lưu trữ</button>
+                                    <a class="btn btn-default" data-fancybox-close>Đóng</a>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                `;
+            } else if ($this.hasClass('doi-pass')) {
+                formContent = `
+                    <section class="content">
+                        <form id="formdulieu">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">ĐỔI MẬT KHẨU</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">ID:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="id" value="${rowData.id || ''}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Username:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="CustomerUsername" maxlength="20" value="${rowData.ten || rowData.user || ''}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Password:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" type="password" name="CustomerPassword" maxlength="20">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn pull-right btn-primary nutdangnhap" name="Submit">Lưu trữ</button>
+                                    <a class="btn btn-default" data-fancybox-close>Đóng</a>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                `;
+            } else if ($this.hasClass('xoa')) {
+                formContent = `
+                    <section class="content">
+                        <form id="formdulieu">
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">XÓA TÀI KHOẢN</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">ID:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="id" value="${rowData.id || ''}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Username:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="CustomerUsername" maxlength="20" value="${rowData.ten || rowData.user || ''}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Email:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" name="EmailAddress" maxlength="50" value="${rowData.email || ''}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn pull-right btn-primary nutdangnhap" name="Submit">Xác nhận xóa</button>
+                                    <a class="btn btn-default" data-fancybox-close>Đóng</a>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                `;
+            }
+
+            $.fancybox.open({
+                src: formContent,
+                type: 'html',
+                afterShow: function (instance, current) {
+                    var $form = $(instance.$content).find('#formdulieu');
+                    $form.on('submit', function (e) {
+                        e.preventDefault();
+                        var formData = $form.serialize();
+                        $.ajax({
+                            url: `add.asp?act=&gdc=&id=${id}&id1=${$this.hasClass('doi-pass') ? 'matkhau' : ''}`,
+                            type: 'post',
+                            data: formData,
+                            async: true,
+                            success: function (responseText) {
+                                $(".formthongbaopopupcenter").html(responseText);
+                                if (window.parent) {
+                                    window.parent.$(window.parent.document).trigger("reload_table");
+                                }
+                                $.fancybox.close();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi AJAX:', error);
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        // Xử lý sự kiện click cho nút Thêm mới
+        $('.btn.btn-danger').on('click', function (e) {
+            e.preventDefault();
+            var formContent = `
+                <section class="content">
+                    <form id="formdulieu">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 class="box-title">TÀI KHOẢN ĐĂNG NHẬP</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Username:</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="CustomerUsername" maxlength="50" placeholder="User tự động thêm VIP1-768736">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Password:</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="password" name="CustomerPassword" maxlength="20">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Tình trạng tài khoản</label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="CustomerStatus" value="1">Tài khoản đang hoạt động
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="CustomerStatus" value="0">Tài khoản lock
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Loại</label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="LoaiKhachHang" value="1" checked required>Đối tác (sử dụng dịch vụ, giới thiệu)
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="LoaiKhachHang" value="0" checked required>Khách hàng (đăng tin)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Tình trạng kích hoạt</label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="TrangThaiKichHoat" value="1" checked>Tài khoản đã kích hoạt
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="TrangThaiKichHoat" value="0" checked>Tài khoản chưa kích hoạt
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control EmailAddress" name="EmailAddress" maxlength="50" placeholder="Email khách hàng" required>
+                                </div>
+                                <div class="thongbao"></div>
+                                <div class="form-group">
+                                    <input class="form-control" name="CustomerName" maxlength="255" placeholder="Tên khách hàng">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="NguoiDaiDien" maxlength="255" placeholder="Người đại diện">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="SoID" maxlength="50" placeholder="Chứng minh nhân dân">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="MaDN" maxlength="50" placeholder="Mã số doanh nghiệp / Số giấy CN ĐKKD">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="MaSoThue" maxlength="50" placeholder="Mã số thuế">
+                                </div>
+                                <div class="form-group">
+                                    <input name="BirthDay" maxlength="50" placeholder="Ngày sinh" class="form-control input_data_ngay">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="Tel" maxlength="50" placeholder="Điện thoại">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="Mobile" maxlength="50" placeholder="Di động">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="Fax" maxlength="50" placeholder="Fax">
+                                </div>
+                                <input type="hidden" name="zoom" value="16">
+                                <div class="form-group">
+                                    <div id="mapSearchInput"></div>
+                                    <input id="txtdiachi" name="txtdiachi" class="form-control" placeholder="Địa chỉ giao dịch chính">
+                                    <input id="hdtdx" name="hdtdx" type="hidden" value="">
+                                    <input id="hdtdy" name="hdtdy" type="hidden" value="">
+                                    <div id="map_canvas"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="DiaChiGiaoHang" maxlength="50" placeholder="Địa chỉ giao dịch">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="DiaChiCongTy" maxlength="50" placeholder="Địa chỉ công ty">
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="TaiKhoanNganHang" cols="20" rows="4" placeholder="Tài khoản ngân hàng" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="Facebook" maxlength="50" placeholder="Facebook">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="Yahoo" maxlength="50" placeholder="Yahoo">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="MSN" maxlength="50" placeholder="MSN">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="Skype" maxlength="50" placeholder="Skype">
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn pull-right btn-primary nutdangnhap" name="Submit"><i class="fa fa-save" aria-hidden="true"></i> Lưu trữ</button>
+                                <a class="btn btn-default" data-fancybox-close>Đóng</a>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            `;
+
+            $.fancybox.open({
+                src: formContent,
+                type: 'html',
+                afterShow: function (instance, current) {
+                    var $form = $(instance.$content).find('#formdulieu');
+                    $form.on('submit', function (e) {
+                        e.preventDefault();
+                        var formData = $form.serialize();
+                        $.ajax({
+                            url: 'add.asp?act=4&gdc=6&id=',
+                            type: 'post',
+                            data: formData,
+                            async: true,
+                            success: function (responseText) {
+                                $(".formthongbaopopupcenter").html(responseText);
+                                if (window.parent) {
+                                    window.parent.$(window.parent.document).trigger("reload_table");
+                                }
+                                $.fancybox.close();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi AJAX:', error);
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        $('#danhsachyeucau').on('click', '.hidethis', function () {
+            var MaSP = $(this).attr("data-id");
+            $.ajax({
+                type: 'post',
+                url: 'hide.asp',
+                data: "IDUser=" + MaSP + "&id=" + MaSP,
+                async: true,
+                success: function () {
+                    table.ajax.reload();
+                }
+            });
+        });
+
+        $('#danhsachyeucau').on('click', '.showthis', function () {
+            var MaSP = $(this).attr("data-id");
+            $.ajax({
+                type: 'post',
+                url: 'show.asp',
+                data: "IDUser=" + MaSP + "&id=" + MaSP,
+                async: true,
+                success: function () {
+                    table.ajax.reload();
+                }
+            });
+        });
+
+        choose = function (loai) {
+            table.ajax.url('https://demodienmay.125.atoz.vn/admin/api/danhmuc.thanhvien.asp').load();
+        };
+
+        $(document).on("reload_table", function () {
+            table.ajax.url('https://demodienmay.125.atoz.vn/admin/api/danhmuc.thanhvien.asp').load();
+        });
+    });
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

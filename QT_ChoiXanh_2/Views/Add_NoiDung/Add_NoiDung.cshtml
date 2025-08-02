@@ -1,0 +1,435 @@
+﻿@{
+    ViewBag.Title = "Add_NoiDung";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Thêm mới nội dung";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .content-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+
+    .btn-toolbar {
+        margin-bottom: 20px;
+    }
+
+    .btn-group .btn {
+        margin-right: 5px;
+    }
+
+    .btn-add {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-browse {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .btn-add-detail {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-advanced {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #fd7e14;
+        color: white;
+    }
+
+    .btn-sync {
+        background-color: #20c997;
+        color: white;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        background-color: #f8f9fa;
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        border-left: 4px solid #007bff;
+        display: inline-block;
+        min-width: 150px;
+    }
+
+    .form-control, .form-control-file {
+        border: 2px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 8px 12px;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,.3);
+        }
+
+    .checkbox-group {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+        .checkbox-group h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    .checkbox-item {
+        margin-bottom: 8px;
+    }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+    .checkbox-columns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .checkbox-column {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .section-divider {
+        border-top: 3px solid #ffc107;
+        margin: 30px 0 20px 0;
+    }
+
+    .btn-save {
+        background-color: #17a2b8;
+        color: white;
+        padding: 10px 30px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: none;
+    }
+
+        .btn-save:hover {
+            background-color: #138496;
+        }
+
+    .user-info {
+        background-color: #e9ecef;
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: #495057;
+    }
+
+    .nav-breadcrumb {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+        .nav-breadcrumb a {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .nav-breadcrumb .separator {
+            margin: 0 5px;
+            color: rgba(255,255,255,0.7);
+        }
+</style>
+
+<div class="content-header">
+    <div class="nav-breadcrumb">
+        <i class="fas fa-home"></i>
+        <a href="#">Home</a>
+        <span class="separator">></span>
+        <span>Danh mục cha</span>
+    </div>
+    <h1 class="m-0">QUẢN TRỊ NỘI DUNG</h1>
+</div>
+
+<div class="btn-toolbar" role="toolbar">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-add">
+            <i class="fas fa-plus"></i> Thêm mới
+        </button>
+        <button type="button" class="btn btn-browse">
+            <i class="fas fa-list"></i> Duyệt tin
+        </button>
+        <button type="button" class="btn btn-add-detail">
+            <i class="fas fa-plus-circle"></i> Thêm chi tiết
+        </button>
+        <button type="button" class="btn btn-advanced">
+            <i class="fas fa-cog"></i> Nâng cao
+        </button>
+        <button type="button" class="btn btn-delete">
+            <i class="fas fa-times"></i> Xóa
+        </button>
+        <button type="button" class="btn btn-sync">
+            <i class="fas fa-sync"></i> Đồng bộ
+        </button>
+    </div>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="title">Tên (Title)</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Đặt tên chuyên mục" />
+            </div>
+
+            <div class="form-group">
+                <label for="author">Người đăng tin</label>
+                <select class="form-control" id="author" name="author">
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="htmlPath">Đường dẫn html</label>
+                <textarea class="form-control" id="htmlPath" name="htmlPath" rows="3"
+                          placeholder="Lưu ý: Đường dẫn html này ảnh hưởng rất lớn đến nền hạ chế sửa đường dẫn html này. Nếu khai báo sai viết không nhạp, hệ thống tự lấy tên bài viết."></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="menuItem" name="menuItem" />
+                    <label for="menuItem" style="background: none; border: none; min-width: auto;">Câu hình đây là nhóm chuyên mục có menu con</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="metaTitle">Title</label>
+                <input type="text" class="form-control" id="metaTitle" name="metaTitle" />
+            </div>
+
+            <div class="form-group">
+                <label for="metaKeywords">Từ khóa tìm kiếm (Meta keywords)</label>
+                <textarea class="form-control" id="metaKeywords" name="metaKeywords" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="metaDescription">Mô tả tìm kiếm (Meta description)</label>
+                <textarea class="form-control" id="metaDescription" name="metaDescription" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="link">Liên kết</label>
+                <input type="text" class="form-control" id="link" name="link" />
+            </div>
+
+            <div class="form-group">
+                <label for="image">Hình đại diện</label>
+                <div class="input-group">
+                    <input type="file" class="form-control-file" id="image" name="image" />
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="button">Chọn file</button>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+            <label>Chi tiết</label>
+            <div style="border: 2px solid #e0e0e0; min-height: 200px; padding: 10px; border-radius: 4px;">
+                <p style="color: #6c757d; font-style: italic;">
+                    <i class="fas fa-robot text-primary"></i> AI ChatGPT viết nội dung
+                </p>
+                <textarea class="form-control" name="content" rows="10" style="border: none; box-shadow: none; resize: vertical;"></textarea>
+            </div>
+            <div class="text-right mt-2">
+                <button type="button" class="btn btn-sync">
+                    <i class="fas fa-sync"></i> Đồng bộ
+                </button>
+                <button type="button" class="btn btn-save">
+                    <i class="fas fa-save"></i> Lưu trữ
+                </button>
+            </div>
+        </div>*@
+
+            <div class="form-group">
+                <label>Chi tiết</label>
+                <div style="border: 2px solid #e0e0e0; min-height: 200px; padding: 10px; border-radius: 4px;">
+                    <p style="color: #6c757d; font-style: italic;">
+                        <i class="fas fa-robot text-primary"></i> AI ChatGPT viết nội dung
+                    </p>
+                    <textarea class="form-control" id="content" name="content" rows="10" style="border: none; box-shadow: none; resize: vertical;"></textarea>
+                </div>
+                <div class="text-right mt-2">
+                    <button type="button" class="btn btn-sync">
+                        <i class="fas fa-sync"></i> Đồng bộ
+                    </button>
+                    <button type="button" class="btn btn-save">
+                        <i class="fas fa-save"></i> Lưu trữ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="checkbox-group">
+        <h4>CẤU HÌNH HIỂN THỊ</h4>
+
+        <div class="form-group">
+            <label for="displayFunction">Chức năng nút bấm</label>
+            <select class="form-control" id="displayFunction" name="displayFunction">
+                <option value="">Chọn</option>
+            </select>
+        </div>
+
+        <div class="checkbox-columns">
+            <div class="checkbox-column">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="isHomepage" name="isHomepage" />
+                    <label for="isHomepage" style="background: none; border: none; min-width: auto;">Hiển thị là chuyên mục của trang chủ</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showOnMobile" name="showOnMobile" />
+                    <label for="showOnMobile" style="background: none; border: none; min-width: auto;">Hiển thị trên phiên bản mobile</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="hasRssSitemap" name="hasRssSitemap" />
+                    <label for="hasRssSitemap" style="background: none; border: none; min-width: auto;">Câu hình RSS, Sitemap</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showHeaderFooter" name="showHeaderFooter" />
+                    <label for="showHeaderFooter" style="background: none; border: none; min-width: auto;">Đầu trang, bên trên logo</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showFooterMenu" name="showFooterMenu" />
+                    <label for="showFooterMenu" style="background: none; border: none; min-width: auto;">Thanh menu ngang cuối trang</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showLeftMenu" name="showLeftMenu" />
+                    <label for="showLeftMenu" style="background: none; border: none; min-width: auto;">Danh mục menu bên phải</label>
+                </div>
+            </div>
+
+            <div class="checkbox-column">
+                <div class="form-group">
+                    <label for="position">Vị trí</label>
+                    <input type="number" class="form-control" id="position" name="position" value="1" style="width: 80px;" />
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showOnDesktop" name="showOnDesktop" />
+                    <label for="showOnDesktop" style="background: none; border: none; min-width: auto;">Hiển thị trên phiên bản desktop</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showTopMenu" name="showTopMenu" />
+                    <label for="showTopMenu" style="background: none; border: none; min-width: auto;">Thanh menu ngang đầu trang</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showLeftMenuList" name="showLeftMenuList" />
+                    <label for="showLeftMenuList" style="background: none; border: none; min-width: auto;">Danh mục menu bên trái</label>
+                </div>
+            </div>
+        </div>
+
+        <h5 style="color: #28a745; margin-top: 20px;">Trên thanh menu</h5>
+        <div class="checkbox-columns">
+            <div class="checkbox-column">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showMainModule" name="showMainModule" />
+                    <label for="showMainModule" style="background: none; border: none; min-width: auto;">Module đầu trang</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showLeftModule" name="showLeftModule" />
+                    <label for="showLeftModule" style="background: none; border: none; min-width: auto;">Module hiển thị bên trái</label>
+                </div>
+            </div>
+            <div class="checkbox-column">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showFooterModule" name="showFooterModule" />
+                    <label for="showFooterModule" style="background: none; border: none; min-width: auto;">Module cuối trang</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="showRightModule" name="showRightModule" />
+                    <label for="showRightModule" style="background: none; border: none; min-width: auto;">Module hiển thị bên phải</label>
+                </div>
+            </div>
+        </div>
+
+        <h5 style="color: #28a745; margin-top: 20px;">Độc màn hình</h5>
+        <div class="checkbox-columns">
+            <div class="checkbox-column">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="readScreenLeft" name="readScreenLeft" />
+                    <label for="readScreenLeft" style="background: none; border: none; min-width: auto;">Đọc màn hình trái</label>
+                </div>
+            </div>
+            <div class="checkbox-column">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="readScreenRight" name="readScreenRight" />
+                    <label for="readScreenRight" style="background: none; border: none; min-width: auto;">Đọc màn hình phải</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group text-center">
+        <button type="button" class="btn btn-secondary mr-2">Làm lại</button>
+        <button type="submit" class="btn btn-save">
+            <i class="fas fa-save"></i> Lưu trữ
+        </button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function() {
+        // Handle file input styling
+        $('.form-control-file').on('change', function() {
+            var fileName = $(this).val().split('\\').pop();
+            $(this).next('.input-group-append').find('button').text(fileName || 'Chọn file');
+        });
+
+        // Handle form submission
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+
+            var data = {
+                title: $('#title').val(),
+                parentName: $('#title').val(), // or another field if needed
+                alilasPath: $('#htmlPath').val(),
+                keywords: $('#metaKeywords').val(),
+                descriptions: $('#metaDescription').val(),
+                link: $('#link').val(),
+                thumbnail: $('#image').val(), // handle file upload separately if needed
+                dateTime: new Date().toISOString()
+            };
+
+            $.ajax({
+                url: 'https://localhost:44306/api/CauHinh/add-parent',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('Thêm thành công! ID: ' + response.id);
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra!');
+                }
+            });
+        });
+    });</script>
+<script src="~/ckeditor/ckeditor.js"></script>
+<script>
+    // Khởi tạo CKEditor cho textarea có id="content"
+    CKEDITOR.replace('content');
+</script>

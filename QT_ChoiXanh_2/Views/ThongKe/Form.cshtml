@@ -1,0 +1,159 @@
+﻿
+
+    <div class="tieudechinh">
+        <div class="col-md-12">
+            <section class="content-header"><h1>Thống kê truy cập</h1></section>
+        </div>
+    </div>
+    <div class="box box-danger">
+        <div class="row" style="max-width:600px;margin:auto">
+            <div class="col-sm-6">
+                <div class="thongke">
+                    <div class="title">Thống kê website</div>
+                    <table cellspacing="5" cellpadding="0">
+                        <tbody>
+                            <tr class="lines">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vtoday.png" alt="Thống kê"></td>
+                                <td>Ngày hôm nay</td>
+                                <td align="right"></td>
+                            </tr>
+                            <tr class="line">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vyesterday.png" alt="Thống kê"></td>
+                                <td>Hôm qua</td>
+                                <td align="right"></td>
+                            </tr>
+                            <tr class="lines">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vweek.png" alt="Thống kê"></td>
+                                <td>Tuần này</td>
+                                <td align="right"></td>
+                            </tr>
+                            <tr class="line">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vlweek.png" alt="Thống kê"></td>
+                                <td>Tuần trước</td>
+                                <td align="right"></td>
+                            </tr>
+                            <tr class="lines">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vmonth.png" alt="Thống kê"></td>
+                                <td>Tháng này</td>
+                                <td align="right"></td>
+                            </tr>
+                            <tr class="line">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vlmonth.png" alt="Thống kê"></td>
+                                <td>Tháng trước</td>
+                                <td align="right"></td>
+                            </tr>
+                            <tr class="lines">
+                                <td><img src="https://demodienmay.125.atoz.vn/dist/images/thongke/vall.png" alt="Thống kê"></td>
+                                <td>Toàn bộ</td>
+                                <td align="right"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="dungluong">
+                    <div class="title">Dung lượng hosting</div>
+                    <table cellspacing="5" cellpadding="0">
+                        <tbody>
+                            <tr class="line">
+                                <td colspan="4">Domain: demodienmay.125.atoz.vn</td>
+                            </tr>
+                            <tr class="lines">
+                                <td>Ngày kích hoạt</td>
+                                <td align="right">9/8/2014</td>
+                            </tr>
+                            <tr class="line">
+                                <td>Ngày hết hạn</td>
+                                <td align="right">1/6/2026</td>
+                            </tr>
+                            <tr class="lines">
+                                <td>Dung lượng traffic theo hợp đồng</td>
+                                <td align="right">.00 MB</td>
+                            </tr>
+                            <tr class="line">
+                                <td>Dung lượng traffic thực tế</td>
+                                <td align="right">.00 MB</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="khung">
+        <div id="danhsachyeucau_wrapper" class="dataTables_wrapper no-footer">
+            <div class="dataTables_length" id="danhsachyeucau_length">
+                <label>
+                    Hiển thị
+                    <select name="danhsachyeucau_length" aria-controls="danhsachyeucau" class="">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="1000">1,000</option>
+                        <option value="10000">10,000</option>
+                    </select> kết quả
+                </label>
+            </div>
+            <div id="danhsachyeucau_filter" class="dataTables_filter">
+                <label><input type="search" class="" placeholder="" aria-controls="danhsachyeucau" style="max-width: 1506px;"></label>
+                <div class="right">Giảm bớt cột: <a class="toggle-vis btn btn-xs btn-success" data-column="0">ID</a> <a class="toggle-vis btn btn-xs btn-success" data-column="1">Tiêu đề</a> <a class="toggle-vis btn btn-xs btn-primary" data-column="2">Truy cập</a> </div>
+            </div>
+            <table id="danhsachyeucau" class="display dataTable no-footer" style="width: 100%;" aria-describedby="danhsachyeucau_info">
+                <thead>
+                    <tr>
+                        <th class="sorting sorting_asc" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="0" style="width: 134px;" aria-sort="ascending" aria-label="ID: Sắp xếp giảm dần">ID</th>
+                        <th class="sorting" tabindex="0" aria-controls="danhsachyeucau" rowspan="1" colspan="1" data-column-index="1" style="width: 239px;" aria-label="Tiêu đề: Sắp xếp tăng dần">Tiêu đề</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1" data-column-index="2" style="width: 266px;" aria-label="Truy cập">Truy cập</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd"><td valign="top" colspan="3" class="dataTables_empty">Không có dữ liệu</td></tr>
+                </tbody>
+            </table>
+            <div class="dataTables_info" id="danhsachyeucau_info" role="status" aria-live="polite">Không có kết quả</div>
+            <div class="dataTables_paginate paging_simple_numbers" id="danhsachyeucau_paginate">
+                <a class="paginate_button previous disabled" aria-controls="danhsachyeucau" data-dt-idx="0" tabindex="-1" id="danhsachyeucau_previous">Trước</a>
+                <span></span>
+                <a class="paginate_button next disabled" aria-controls="danhsachyeucau" data-dt-idx="1" tabindex="-1" id="danhsachyeucau_next">Kế</a>
+            </div>
+        </div>
+    </div>
+<script>
+    // Định nghĩa hàm initializeDataTable
+    function initializeDataTable(tableId, url, columns, defaultOrderColumn, defaultOrderDir, nonOrderableColumns) {
+        var table = $('#' + tableId).DataTable({
+            ajax: url ? { url: url, dataSrc: '' } : null,
+            columns: columns.length > 0 ? columns : [
+                { data: 'id' },
+                { data: 'tieu_de' },
+                { data: 'truy_cap' }
+            ],
+            order: [[defaultOrderColumn, defaultOrderDir || 'asc']],
+            pageLength: 10,
+            processing: true,
+            serverSide: false,
+            columnDefs: [
+                { targets: nonOrderableColumns || [], orderable: false }
+            ]
+        });
+
+        // Thêm xử lý toggle column
+        $('#' + tableId + '_filter .toggle-vis').on('click', function (e) {
+            e.preventDefault();
+            var columnIdx = $(this).data('column');
+            var column = table.column(columnIdx);
+            column.visible(!column.visible());
+        });
+
+        return table;
+    }
+
+    // Khởi tạo DataTable
+    // $(document).ready(function() {
+    //     initializeDataTable(
+    //         'danhsachyeucau', null, [], 0, 'asc', [2]
+    //     );
+    // });
+</script>

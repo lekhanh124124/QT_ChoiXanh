@@ -1,0 +1,184 @@
+@{
+    ViewData["Title"] = "Qu?n lý b? l?c con";
+    Layout = null;
+    var parentId = Context.Request.Query["id"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Qu?n lý b? l?c con</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background: #f5f7fa;
+        }
+
+        .main {
+            display: flex;
+            margin: 20px 0;
+        }
+
+        .filter-list {
+            width: 40%;
+            background: #fff;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .filter-detail {
+            width: 60%;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .table th {
+            background: #f00;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            border: none;
+        }
+
+        .btn-success {
+            background: #4caf50;
+            border: none;
+        }
+
+        .inputord {
+            width: 32px;
+            text-align: center;
+        }
+
+        .box-header {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .box-footer {
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .form-group label {
+            font-weight: normal;
+        }
+
+        .checkbox-inline {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" style="background:#28a745;color:#fff;padding:10px 20px;display:flex;align-items:center;">
+        <span style="font-size:22px;font-weight:bold;">QU?N LÝ B? L?C CON</span>
+        <a href="/Menu/Filter" class="btn btn-danger pull-right" style="margin-left:auto;">
+            <i class="fa fa-arrow-left"></i> Quay l?i
+        </a>
+    </div>
+    <div class="main container-fluid">
+        <div class="filter-list">
+            <div class="box-header">
+                Hi?n th?
+                <select style="width:60px;">
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+                k?t qu?
+                <span style="float:right;">Gi?m b?t c?t: <b>Tên</b></span>
+            </div>
+            <div class="box-body" style="padding:0;">
+                <table class="table table-bordered table-hover table-striped" id="filterTable">
+                    <thead>
+                        <tr>
+                            <th style="background:#f00;color:#fff;">Tên</th>
+                            <th style="width:90px;">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- D? li?u s? ???c render b?ng JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="filter-detail">
+            <form class="form-horizontal" id="filterForm" style="padding:15px;">
+                <div class="form-group">
+                    <label class="col-sm-2">Tên</label>
+                    <div class="col-sm-10">
+                        <input name="Name" class="form-control" maxlength="50" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">???ng d?n html</label>
+                    <div class="col-sm-10">
+                        <input name="HtmlPath" class="form-control" maxlength="100" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Mã l?c</label>
+                    <div class="col-sm-10">
+                        <input name="Code" class="form-control" maxlength="50" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">C?u hình</label>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline"><input type="checkbox" name="IsSearch" /> ??a vào Tìm ki?m</label>
+                        <label class="checkbox-inline"><input type="checkbox" name="IsShow" /> Cho phép hi?n th?</label>
+                        <label class="checkbox-inline"><input type="checkbox" name="IsMulti" /> Cho phép ch?n nhi?u k?t qu?</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">C?p b? l?c</label>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline"><input type="checkbox" name="IsGroup" /> Có ch?a nhóm b? l?c con</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class="btn btn-primary pull-right" type="submit">L?u tr?</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer style="background:#f5f7fa;padding:10px 20px;">
+        <span>H? th?ng qu?n tr? d? li?u.</span>
+        <span class="pull-right">Phiên b?n 5.0.1</span>
+    </footer>
+    <script>
+        // G?i API và render danh sách b? l?c con
+        $(function () {
+            var parentId = parseInt('@parentId');
+            $.getJSON('https://gist.githubusercontent.com/chungchung102/0c72ee61b8476cf8f3c22472e3e2139b/raw/103b53ba841e6b87c025a655badb283a2ba5954b/gistfile1.txt' , function (data) {
+                var tbody = $('#filterTable tbody');
+                tbody.empty();
+                // L?c d? li?u theo idCatalog (parentId)
+                var filtered = data.filter(function(item) {
+                    return item.idCatalog == parentId;
+                });
+                $.each(filtered, function (i, item) {
+                    var row = `<tr>
+                        <td>
+                            <input type="checkbox" checked="checked" />
+                            <i class="fa fa-folder-open-o"></i>
+                            <a href="#">${item.filterParentName || item.filterCatalogName || item.name}</a>
+                        </td>
+                        <td>
+                            <input class="inputord" value="${item.ord || item.order}" />
+                            <button class="btn btn-success btn-xs"><i class="fa fa-refresh"></i></button>
+                            <button class="btn btn-danger btn-xs"><i class="fa fa-close"></i> Xóa</button>
+                        </td>
+                    </tr>`;
+                    tbody.append(row);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

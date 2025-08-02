@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Quản lý liên hệ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>QUẢN LÝ LIÊN HỆ</h1>
+</section>
+
+<section class="content">
+    <div class="khung">
+        <div class="right">
+            Giảm bớt cột:
+            <a class="toggle-vis btn btn-xs btn-info" data-column="0">ID</a>
+            <a class="toggle-vis btn btn-xs btn-default" data-column="1">Người liên hệ</a>
+            <a class="toggle-vis btn btn-xs btn-primary" data-column="2">Thời gian</a>
+            <a class="toggle-vis btn btn-xs btn-warning" data-column="3">IP</a>
+            <a class="toggle-vis btn btn-xs btn-danger" data-column="4">Chức năng</a>
+        </div>
+        <table id="lienhe" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Người liên hệ</th>
+                    <th>Thời gian</th>
+                    <th>IP</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#lienhe').DataTable({
+                "ajax": {
+                    "url": "https://demodienmay.125.atoz.vn/admin/api/lienhe.asp",
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "nguoimua" },
+                    {
+                        "data": "thoigian",
+                        "render": function (data, type, row) {
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data, 'M/D/YYYY h:mm:ss A').format('DD/MM/YYYY HH:mm:ss');
+                            }
+                            return moment(data, 'M/D/YYYY h:mm:ss A').valueOf();
+                        }
+                    },
+                    { "data": "ip" },
+                    {
+                        "data": "id",
+                        "render": function (data, type, row) {
+                            var id = row.id;
+                            return `<a href="edit.asp?act=3&gdc=3&AutoID=${id}" title="Xem liên hệ" class="btn btn-xs btn-success"><i class="fa fa-eye"></i> Xem</a>
+                                    <a href="delete.asp?act=3&gdc=3&AutoID=${id}" title="Xóa liên hệ" class="btn btn-xs btn-danger"><i class="fa fa-shopping-cart"></i> Xóa</a>`;
+                        }
+                    }
+                ],
+                "order": [[2, "desc"]],
+                "responsive": true,
+                "pageLength": 100,
+                "searching": true,
+                "ordering": true,
+                "colReorder": true,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ kết quả",
+                    "info": "Hiển thị _START_ đến _END_ [_TOTAL_]",
+                    "processing": "Đang xử lý dữ liệu...",
+                    "emptyTable": "Không có dữ liệu",
+                    "paginate": {
+                        "previous": "Trước",
+                        "next": "Kế"
+                    }
+                }
+            });
+
+            // Xử lý bật/tắt cột
+            $('.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = table.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+        });
+    </script>
+}

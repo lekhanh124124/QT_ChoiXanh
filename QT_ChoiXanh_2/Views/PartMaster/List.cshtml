@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Chuyển nhóm bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="tieudechinh">
+    <div class="col-md-7">
+        <section class="content-header"><h1>CHUYỂN NHÓM BÀI VIẾT QUA CHUYÊN MỤC KHÁC</h1></section>
+    </div>
+    <div class="col-md-5 pull-right right">
+        <a href="/Admin/NhomDanhMuc" class="btn btn-success"><i class="fa fa-sign-out"></i> Nhóm danh mục</a>
+        <a href="/Admin/ExportBaiViet" class="btn btn-info"><i class="fa fa-sign-out"></i> Export</a>
+    </div>
+</div>
+
+<div class="khung">
+    <div class="right">
+        Giảm bớt cột:
+        <a class="toggle-vis btn btn-xs btn-info" data-column="0">ID</a>
+        <a class="toggle-vis btn btn-xs btn-default" data-column="1">Tiêu đề</a>
+        <a class="toggle-vis btn btn-xs btn-primary" data-column="2">Chức năng</a>
+    </div>
+    <table id="danhsachyeucau" class="display" style="width: 100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tiêu đề</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<span class="formthongbaopopupcenter"></span>
+<span class="formthongbaomoipopup"></span>
+<span id="boxes" style="display:none"></span>
+<div class="modal fade" id="thongbaoHeThongModal" tabindex="-1" role="dialog" aria-labelledby="thongbaoHeThongModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                <h5 class="modal-title" id="thongbaoHeThongModalLabel"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer box-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notification" class="notification position-fixed top-0 end-0 bg-primary text-white p-3 m-3 rounded" style="top: 20px; right: 20px; z-index: 999; display:none"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#danhsachyeucau').DataTable({
+                "ajax": {
+                    "url": "https://demodienmay.125.atoz.vn/admin/api/web.danhsach.partmaster.asp?draw=1&columns[0][data]=id&columns[0][name]=&columns[0][searchable]=true&columns[0][orderable]=true&columns[0][search][value]=&columns[0][search][regex]=false&columns[1][data]=tieude&columns[1][name]=&columns[1][searchable]=true&columns[1][orderable]=true&columns[1][search][value]=&columns[1][search][regex]=false&columns[2][data]=idquanly&columns[2][name]=&columns[2][searchable]=true&columns[2][orderable]=false&columns[2][search][value]=&columns[2][search][regex]=false&order[0][column]=0&order[0][dir]=asc&start=0&length=100&search[value]=&search[regex]=false&pageid=1",
+                    "dataSrc": "data"
+                },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "tieude" },
+                    {
+                        "data": "idquanly",
+                        "render": function(data, type, row) {
+                            var id = row.id;
+                            var capmenu = row.idquanly;
+                            if (capmenu == "0") {
+                                return `<a class="btn btn-default btn-xs" href="/Admin/QuanLyNhomDanhMuc?id=${id}" title="Quản lý nhóm danh mục"><i class="tdicon fa fa-folder-open-o"></i></a> <a href="/Admin/QuanLyNhomDanhMuc?id=${id}" title="Chuyển nhóm danh mục">Chuyển</a>`;
+                            } else {
+                                return `<a class="btn btn-warning btn-xs" href="/Admin/Part/Edit?IDPart=${id}" title="Sửa bài viết"><i class="tdicon fa fa-edit"></i></a>
+                                        <a class="btn btn-success btn-xs" href="/Admin/Part/ChuyenBaiViet?IDPart=${id}" title="Chuyển bài viết"><i class="tdicon fa fa-exchange"></i></a>
+                                        <a class="btn btn-danger btn-xs divreload" href="javascript:void(0)" data-fancybox data-type="ajax" data-src="/Admin/Part/Delete?IDPart=${id}" title="Xóa bài viết"><i class="fa fa-close"></i></a>`;
+                            }
+                        }
+                    }
+                ],
+                "order": [[0, "asc"]],
+                "responsive": true,
+                "pageLength": 100,
+                "searching": false, // Tắt thanh tìm kiếm
+                "lengthChange": true, // Bật chọn số kết quả
+                "ordering": true,
+                "colReorder": true,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ kết quả",
+                    "info": "Hiển thị _START_ đến _END_ [_TOTAL_]",
+                    "processing": "Đang xử lý dữ liệu...",
+                    "emptyTable": "Không có dữ liệu",
+                    "paginate": {
+                        "previous": "Trước",
+                        "next": "Kế"
+                    }
+                }
+            });
+
+            // Xử lý bật/tắt cột
+            $('.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = table.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+
+            // Hàm choose để thay đổi pageid
+            window.choose = function(loai) {
+                table.ajax.url("/admin/api/web.danhsach.partmaster.asp?pageid=" + loai + "&id=").load();
+            };
+        });
+    </script>
+}
