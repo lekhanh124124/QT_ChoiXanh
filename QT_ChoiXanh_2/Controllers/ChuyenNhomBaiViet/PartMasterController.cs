@@ -11,5 +11,11 @@ namespace QT_ChoiXanh_2.Controllers.ChuyenNhomBaiViet
         {
             return View();
         }
+
+        [Route("list-full.asp")]
+        public IActionResult ListFull()
+        {
+            return View();
+        }
     }
 }

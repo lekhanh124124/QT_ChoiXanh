@@ -1,0 +1,386 @@
+﻿@{
+    ViewData["Title"] = "Chuyển nhóm danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="tieudechinh">
+    <div class="col-md-7">
+        <section class="content-header"><h1>CHUYỂN NHÓM BÀI VIẾT QUA CHUYÊN MỤC KHÁC</h1></section>
+    </div>
+    <div class="col-md-5 pull-right right">
+        <a href="list.asp?act=3&gdc=9" class="btn btn-success"><i class="fa fa-sign-out"></i> Nhóm bài viết</a>
+        <a href="down.asp?act=3&gdc=9" class="btn btn-info"><i class="fa fa-sign-out"></i> Export</a>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="box box-primary wrap-table">
+        <table id="example" class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nhóm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Trang chủ</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35001" title="Chuyển nhóm mới [Trang chủ]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Newsletter</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35002" title="Chuyển nhóm mới [Newsletter]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quy trình sinh viên khai báo hồ sơ</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35003" title="Chuyển nhóm mới [Quy trình sinh viên khai báo hồ sơ]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tuyển nhân sự</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35004" title="Chuyển nhóm mới [Tuyển nhân sự]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CV của ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35005" title="Chuyển nhóm mới [CV của ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gia sư</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35006" title="Chuyển nhóm mới [Gia sư]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Văn phòng cho thuê</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35007" title="Chuyển nhóm mới [Văn phòng cho thuê]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thư viện ảnh</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35008" title="Chuyển nhóm mới [Thư viện ảnh]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Giới thiệu</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35009" title="Chuyển nhóm mới [Giới thiệu]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quá trình đào tạo của ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35010" title="Chuyển nhóm mới [Quá trình đào tạo của ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thành viên TuyenNhanSu</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35011" title="Chuyển nhóm mới [Thành viên TuyenNhanSu]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thông tin thêm của nhà tuyển dụng</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35012" title="Chuyển nhóm mới [Thông tin thêm của nhà tuyển dụng]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tin tức</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35013" title="Chuyển nhóm mới [Tin tức]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Kinh nghiệm của ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35015" title="Chuyển nhóm mới [Kinh nghiệm của ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thông tin thêm của ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35016" title="Chuyển nhóm mới [Thông tin thêm của ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nhà bán</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35017" title="Chuyển nhóm mới [Nhà bán]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Kỹ năng của ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35020" title="Chuyển nhóm mới [Kỹ năng của ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thông tin tham vấn của ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35021" title="Chuyển nhóm mới [Thông tin tham vấn của ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ứng viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35022" title="Chuyển nhóm mới [Ứng viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Phụ huynh tìm gia sư</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35023" title="Chuyển nhóm mới [Phụ huynh tìm gia sư]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gia sư tìm lớp</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35024" title="Chuyển nhóm mới [Gia sư tìm lớp]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Người bán</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35025" title="Chuyển nhóm mới [Người bán]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nhà tuyển dụng</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35027" title="Chuyển nhóm mới [Nhà tuyển dụng]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Liên hệ</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35028" title="Chuyển nhóm mới [Liên hệ]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Người mua</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35029" title="Chuyển nhóm mới [Người mua]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Hồ sơ sinh viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35031" title="Chuyển nhóm mới [Hồ sơ sinh viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nhà cho thuê</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35033" title="Chuyển nhóm mới [Nhà cho thuê]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Đất bán</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35034" title="Chuyển nhóm mới [Đất bán]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Đất cho thuê</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35035" title="Chuyển nhóm mới [Đất cho thuê]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điện thoại</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35036" title="Chuyển nhóm mới [Điện thoại]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Máy tính</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35037" title="Chuyển nhóm mới [Máy tính]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thành viên</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35038" title="Chuyển nhóm mới [Thành viên]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Thông tin liên hệ</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35039" title="Chuyển nhóm mới [Thông tin liên hệ]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dịch vụ</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35040" title="Chuyển nhóm mới [Dịch vụ]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bảng giá</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35041" title="Chuyển nhóm mới [Bảng giá]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Công cụ</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35103" title="Chuyển nhóm mới [Công cụ]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Đăng ký</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35111" title="Chuyển nhóm mới [Đăng ký]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Hướng dẫn</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35116" title="Chuyển nhóm mới [Hướng dẫn]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cấu hình</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35118" title="Chuyển nhóm mới [Cấu hình]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quy trình đăng ký</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35119" title="Chuyển nhóm mới [Quy trình đăng ký]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tìm kiếm</td>
+                    <td>
+                        <a href="parent.asp?act=3&gdc=9&pageid=&IDParent=35120" title="Chuyển nhóm mới [Tìm kiếm]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <!-- Continue with remaining rows from the HTML... -->
+                <tr>
+                    <td>Thông tin cá nhân</td>
+                    <td>
+                        <a href="Cat.asp?act=3&gdc=9&pageid=&IDParent=35005&IDCat=35018" title="Chuyển nhóm mới [Thông tin cá nhân]" class="btn btn-primary btn-xs">
+                            Chuyển
+                        </a>
+                    </td>
+                </tr>
+                <!-- Add remaining rows as needed for full table... -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<span class="formthongbaopopupcenter"></span>
+<span class="formthongbaomoipopup"></span>
+<span id="boxes" style="display:none"></span>
+<div class="modal fade" id="thongbaoHeThongModal" tabindex="-1" role="dialog" aria-labelledby="thongbaoHeThongModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                <h5 class="modal-title" id="thongbaoHeThongModalLabel"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer box-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notification" class="notification position-fixed top-0 end-0 bg-primary text-white p-3 m-3 rounded" style="top: 20px; right: 20px; z-index: 999; display:none"></div>
