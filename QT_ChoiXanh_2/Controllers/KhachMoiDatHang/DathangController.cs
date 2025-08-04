@@ -1,29 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QT_ChoiXanh_2.Models;
+using System;
 
-namespace QuanTriCRM.Controllers.KhachMoiDatHang
+namespace QT_ChoiXanh_2.Controllers.KhachMoiDatHang
 {
-    [Route("admin/quanlykho/dathang")]
     public class DathangController : Controller
     {
-        [Route("list.asp")]
+        [Route("admin/quanlykho/dathang/list.asp")]
         public IActionResult List()
         {
             return View("List");
         }
 
-        [Route("fixorder.asp")]
-        public IActionResult FixOrder([FromQuery] int act, [FromQuery] int gdc, [FromQuery] string IDBG)
+        [Route("admin/quanlykho/dathang/register.asp")]
+        public IActionResult XuLyDatHang(int act, int gdc, int IDBG)
         {
-            // TODO: Thêm logic xử lý đơn hàng
-            return RedirectToAction("List"); // Quay lại danh sách sau khi xử lý
-        }
-
-        [Route("vieworder.asp")]
-        public IActionResult ViewOrder([FromQuery] int act, [FromQuery] int gdc, [FromQuery] string id)
-        {
-            // TODO: Thêm logic xem chi tiết đơn hàng
-            return RedirectToAction("List"); // Quay lại danh sách sau khi xem
+            ViewBag.OrderId = IDBG;
+            ViewBag.Act = act;
+            ViewBag.Gdc = gdc;
+            return View("XuLyDatHang");
         }
     }
 }

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using QT_ChoiXanh_2.Models;
 
-namespace QuanTriCRM.Controllers.QuanTriNoiDung
+namespace QT_ChoiXanh_2.Controllers.QuanTriNoiDung
 {
     [Route("admin/part/parent")]
     public class QT_NoiDungController : Controller

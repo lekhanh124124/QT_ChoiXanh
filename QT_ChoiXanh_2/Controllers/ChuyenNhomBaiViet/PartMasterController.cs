@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QT_ChoiXanh_2.Models;
 
-namespace QuanTriCRM.Controllers.ChuyenNhomBaiViet
+namespace QT_ChoiXanh_2.Controllers.ChuyenNhomBaiViet
 {
     [Route("admin/part/partmaster")]
     public class PartMasterController : Controller
