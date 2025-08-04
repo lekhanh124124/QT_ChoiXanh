@@ -8,7 +8,7 @@
         <section class="content-header"><h1>CHUYỂN NHÓM BÀI VIẾT QUA CHUYÊN MỤC KHÁC</h1></section>
     </div>
     <div class="col-md-5 pull-right right">
-        <a href="/Admin/NhomDanhMuc" class="btn btn-success"><i class="fa fa-sign-out"></i> Nhóm danh mục</a>
+        <a href="/admin/part/partmaster/list-full.asp?act=3&gdc=9" class="btn btn-success"><i class="fa fa-sign-out"></i> Nhóm danh mục</a>
         <a href="/Admin/ExportBaiViet" class="btn btn-info"><i class="fa fa-sign-out"></i> Export</a>
     </div>
 </div>
@@ -54,16 +54,93 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+<<<<<<< Updated upstream
+            var drawCounter = 1; // Biến đếm draw counter
+            
             var table = $('#danhsachyeucau').DataTable({
+                "serverSide": true, // Bật server-side processing
+=======
+            var drawCounter = 1;
+            
+            var table = $('#danhsachyeucau').DataTable({
+                "processing": true,
+                "serverSide": true,
+>>>>>>> Stashed changes
                 "ajax": {
-                    "url": "https://demodienmay.125.atoz.vn/admin/api/web.danhsach.partmaster.asp?draw=1&columns[0][data]=id&columns[0][name]=&columns[0][searchable]=true&columns[0][orderable]=true&columns[0][search][value]=&columns[0][search][regex]=false&columns[1][data]=tieude&columns[1][name]=&columns[1][searchable]=true&columns[1][orderable]=true&columns[1][search][value]=&columns[1][search][regex]=false&columns[2][data]=idquanly&columns[2][name]=&columns[2][searchable]=true&columns[2][orderable]=false&columns[2][search][value]=&columns[2][search][regex]=false&order[0][column]=0&order[0][dir]=asc&start=0&length=100&search[value]=&search[regex]=false&pageid=1",
-                    "dataSrc": "data"
+                    "url": "https://demodienmay.125.atoz.vn/admin/api/web.danhsach.partmaster.asp",
+                    "type": "GET",
+                    "data": function(d) {
+<<<<<<< Updated upstream
+                        // Tính toán pageid dựa trên start và length
+                        var currentPage = Math.floor(d.start / d.length) + 1;
+                        
+                        // Xây dựng parameters theo định dạng yêu cầu của API
+                        var params = {
+                            'draw': drawCounter,
+                            'start': d.start,
+                            'length': d.length,
+                            'pageid': currentPage,
+                            'search[value]': d.search.value || '',
+                            'search[regex]': false,
+                            'order[0][column]': d.order[0].column || 0,
+                            'order[0][dir]': d.order[0].dir || 'asc'
+                        };
+                        
+                        // Thêm thông tin columns
+                        d.columns.forEach(function(column, index) {
+                            params['columns[' + index + '][data]'] = column.data;
+                            params['columns[' + index + '][name]'] = column.name || '';
+                            params['columns[' + index + '][searchable]'] = column.searchable;
+                            params['columns[' + index + '][orderable]'] = column.orderable;
+                            params['columns[' + index + '][search][value]'] = column.search.value || '';
+                            params['columns[' + index + '][search][regex]'] = column.search.regex || false;
+                        });
+                        
+                        return params;
+=======
+                        // Add custom parameters while keeping the original structure
+                        d.draw = drawCounter;
+                        d.pageid = Math.floor(d.start / d.length) + 1;
+                        
+                        // Set fixed column definitions to match the original API
+                        d['columns[0][data]'] = 'id';
+                        d['columns[0][name]'] = '';
+                        d['columns[0][searchable]'] = true;
+                        d['columns[0][orderable]'] = true;
+                        d['columns[0][search][value]'] = '';
+                        d['columns[0][search][regex]'] = false;
+                        
+                        d['columns[1][data]'] = 'tieude';
+                        d['columns[1][name]'] = '';
+                        d['columns[1][searchable]'] = true;
+                        d['columns[1][orderable]'] = true;
+                        d['columns[1][search][value]'] = '';
+                        d['columns[1][search][regex]'] = false;
+                        
+                        d['columns[2][data]'] = 'idquanly';
+                        d['columns[2][name]'] = '';
+                        d['columns[2][searchable]'] = true;
+                        d['columns[2][orderable]'] = false;
+                        d['columns[2][search][value]'] = '';
+                        d['columns[2][search][regex]'] = false;
+                        
+                        d['search[regex]'] = false;
+                        
+                        return d;
+>>>>>>> Stashed changes
+                    },
+                    "dataSrc": function(json) {
+                        // Increment draw counter for next request
+                        drawCounter++;
+                        return json.data;
+                    }
                 },
                 "columns": [
                     { "data": "id" },
                     { "data": "tieude" },
                     {
                         "data": "idquanly",
+                        "orderable": false,
                         "render": function(data, type, row) {
                             var id = row.id;
                             var capmenu = row.idquanly;
@@ -80,6 +157,7 @@
                 "order": [[0, "asc"]],
                 "responsive": true,
                 "pageLength": 100,
+                "lengthMenu": [[10, 25, 50, 100, 1000], [10, 25, 50, 100, 1000]],
                 "searching": false, // Tắt thanh tìm kiếm
                 "lengthChange": true, // Bật chọn số kết quả
                 "ordering": true,
@@ -103,9 +181,17 @@
                 column.visible(!column.visible());
             });
 
-            // Hàm choose để thay đổi pageid
+            // Hàm choose để thay đổi pageid - cập nhật để sử dụng với server-side processing
             window.choose = function(loai) {
-                table.ajax.url("/admin/api/web.danhsach.partmaster.asp?pageid=" + loai + "&id=").load();
+<<<<<<< Updated upstream
+                // Reset về trang đầu khi thay đổi pageid filter
+                table.page(0).draw('page');
+=======
+                // Jump to specific page
+                var pageLength = table.page.len();
+                var targetPage = loai - 1; // DataTables uses 0-based indexing
+                table.page(targetPage).draw('page');
+>>>>>>> Stashed changes
             };
         });
     </script>
