@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace QuanTriCRM.Controllers.QuanTriNoiDung
+namespace QT_ChoiXanh_2.Controllers.QuanTriNoiDung
 {
     public class Add_NoiDungController : Controller
     {

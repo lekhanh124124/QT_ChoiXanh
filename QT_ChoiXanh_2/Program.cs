@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using QT_ChoiXanh_2.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +40,7 @@ app.UseEndpoints(endpoints =>
         defaults: new { controller = "Member", action = "Browser" });
 
     endpoints.MapControllerRoute(
-        name: "admin_member",
+        name: "admin_home",
         pattern: "admin",
         defaults: new { controller = "Admin", action = "Index" });
 
@@ -58,6 +58,7 @@ app.UseEndpoints(endpoints =>
         name: "filters",
         pattern: "admin/filter/catalog/list.asp",
         defaults: new { controller = "Filter", action = "Index" });
+
 });
 
 app.MapControllerRoute(

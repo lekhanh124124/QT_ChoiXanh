@@ -1,0 +1,514 @@
+﻿@{
+    ViewData["Title"] = "Xử lý đặt hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var orderId = ViewBag.OrderId ?? 223; // Default value for demo
+    var act = ViewBag.Act ?? 4;
+    var gdc = ViewBag.Gdc ?? 4;
+}
+
+<script>
+    $(function () {
+        var data = [
+            { id: 0, text: 'Vui lòng chọn' },
+            { id: 35053, text: '[35053] Chính sách đăng tin dành cho nhà tuyển dụng tại Tuyennhansu.vn' },
+            { id: 35055, text: '[35055] Đánh giá nhân viên kinh doanh, cần phỏng vấn những gì' },
+            { id: 35056, text: '[35056] Chính sách giải quyết tranh chấp' },
+            { id: 35057, text: '[35057] Điều khoản sử dụng' },
+            { id: 35058, text: '[35058] Nội dung email gửi cho quản trị và khách hàng' },
+            { id: 35059, text: '[35059] Chính sách sử dụng cookie' },
+            { id: 35060, text: '[35060] Chính sách xử lý dữ liệu' },
+            { id: 35061, text: '[35061] Chính sách hoạt động và hợp tác' },
+            { id: 35112, text: '[35112] Hướng dẫn cách chia sẻ kinh nghiệm trong hồ sơ xin việc' },
+            { id: 35115, text: '[35115] Hướng dẫn chia sẻ kỹ năng làm việc để gây ấn tượng với nhà tuyển dụng' },
+            { id: 40002, text: '[40002] Nhân viên tiếp tân, thư ký văn phòng' },
+            { id: 40003, text: '[40003] Nhân viên kinh doanh thiết kế web' },
+            { id: 40004, text: '[40004] CẦN TUYỂN NHÂN VIÊN KỸ THUẬT LAYOUT' },
+            { id: 40005, text: '[40005] NHÂN VIÊN TƯ VẤN BẤT ĐỘNG SẢN' },
+            { id: 40006, text: '[40006] Nhân viên sale admin mua bán, cho thuê nhà phố' },
+            { id: 40007, text: '[40007] Nhân viên bán hàng qua điện thoại' },
+            { id: 40008, text: '[40008] Nhân viên quản lý duyệt tin trang Web tuyennhansu.vn' },
+            { id: 40009, text: '[40009] Nhân viên kế toán tiền lương' },
+            { id: 40012, text: '[40012] Nhân viên Livestream bán hàng' },
+            { id: 40013, text: '[40013] Nhân viên đăng tin và tìm khách' },
+            { id: 40014, text: '[40014] Tuyển dụng nhân viên pháp lý, thành lập doanh nghiệp và các dịch vụ pháp lý khác' },
+            { id: 40015, text: '[40015] NHÂN VIÊN KINH DOANH QUẢN LÝ TÒA NHÀ' },
+            { id: 40016, text: '[40016] Cán bộ phụ trách tuyển dụng nội bộ' },
+            { id: 40017, text: '[40017] NHÂN VIÊN MARKETING VÀ SEO' },
+            { id: 40018, text: '[40018] NHÂN VIÊN KINH DOANH CHO THUÊ VĂN PHÒNG' },
+            { id: 40019, text: '[40019] Cần tuyển giám sát cung ứng nhân sự' },
+            { id: 40031, text: '[40031] Trưởng nhóm kinh doanh pháp lý' },
+            { id: 40034, text: '[40034] NHÂN VIÊN HÀNH CHÍNH NHÂN SỰ' },
+            { id: 40035, text: '[40035] TRƯỞNG NHÓM KINH DOANH THIẾT KẾ WEBSITE' },
+            { id: 40036, text: '[40036] NHÂN VIÊN KẾ TOÁN' },
+            { id: 40140, text: '[40140] Tuyển dụng nhân viên kinh doanh thiết kế web' },
+            { id: 40244, text: '[40244] Hướng dẫn chia sẻ kỹ năng làm việc để gây ấn tượng với nhà tuyển dụng' },
+            { id: 40245, text: '[40245] Hướng dẫn cách chia sẻ kinh nghiệm trong hồ sơ xin việc' },
+            { id: 40349, text: '[khungkanh] Khung kính tranh xếp hình 2 x 2' },
+            { id: 40351, text: '[khungmica] Khung mica tranh xếp hình 2 x 2' },
+            { id: 40353, text: '[40353] Tranh xếp hình theo yêu cầu mảnh ghép 2 x 2' },
+            { id: 40354, text: '[40354] Tranh xếp hình theo yêu cầu mảnh ghép 5 x 5' },
+            { id: 40355, text: '[40355] Tranh xếp hình theo yêu cầu mảnh ghép 10 x 10' },
+            { id: 40364, text: '[40364] Tranh xếp hình theo yêu cầu ngày Quốc tế Phụ nữ 8/3' },
+            { id: 40365, text: '[khungkanh] Khung kính tranh xếp hình 5 x 5' },
+            { id: 40366, text: '[40366] Khung mica tranh xếp hình 5 x 5' },
+            { id: 40367, text: '[40367] Khung mica tranh xếp hình 10 x 10' },
+            { id: 40368, text: '[40368] Khung kính tranh xếp hình 10 x 10' },
+            { id: 40369, text: '[40369] Khung kính tranh xếp hình 20 x 20' },
+            { id: 40370, text: '[40370] Khung mica tranh xếp hình 20 x 20' },
+            { id: 40376, text: '[40376] Tranh xếp hình theo yêu cầu mảnh ghép 20 x 20' },
+            { id: 40495, text: '[40495] Doanh nghiệp Nhà nước muốn tự chủ hơn, có không gian phát triển mới' },
+            { id: 40496, text: '[40496] Đóng thuế kỷ lục 26,8 tỷ USD, nhà tiên tri xứ Omaha nhắc Chính phủ tiêu cho khéo' },
+            { id: 40499, text: '[40499] Hai người bán bánh mì trả lại 100 triệu đồng nhặt được - Báo VnExpress' },
+            { id: 40505, text: '[40505] Dòng xe VinFast Green có giá từ 269 triệu đồng - Báo VnExpress' },
+            { id: 40507, text: '[40507] Dòng xe VinFast Green có giá từ 269 triệu đồng - Báo VnExpress' },
+            { id: 40509, text: '[40509] Xanh SM ra mắt dịch vụ taxi chất lượng cao - Báo VnExpress' }
+        ];
+        
+        $(".chonmahang").select2({
+            createSearchChoice: function(term, data) {
+                if ($(data).filter(function() {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return { id: term, text: term };
+                }
+            },
+            multiple: false,
+            data: data
+        })
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.loadlichsu', function () {
+            $.ajax({
+                type: 'POST',
+                url: "/admin/quanlykho/function/lichsudathang.asp?id=@orderId",
+                async: true,
+                success: function (responseText) {
+                    $(".chitietlichsu").html(responseText);
+                }
+            });
+        })
+    });
+    
+    $(document).ready(function () {
+        $(document).on('click', '.loadcongno', function () {
+            $.ajax({
+                type: 'POST',
+                url: "/admin/quanlykho/function/congnokhachhang.asp?id=@orderId",
+                async: true,
+                success: function (responseText) {
+                    $(".chitietcongno").html(responseText);
+                }
+            });
+        })
+    });
+</script>
+
+<section class="content-header">
+    <h1>Xem chi tiết đặt hàng - ID: @orderId</h1>
+    <div class="pull-right">
+        <a href="http://www.demodienmay.125.atoz.vn/cart-web/?choixanh=review&mabaogia=26074634" title="Xem đơn hàng trên web" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-internet-explorer"></i> Xem trên web</a>
+        <a href="delete.asp?act=@act&gdc=@gdc&IDBG=@orderId" title="Xoá đơn hàng" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> Xóa</a>
+        <a href="/admin/print/bg.asp?id=@orderId&check=down" title="Lưu file .xls" class="btn btn-success btn-sm"><i class="fa fa-download"></i> Tải</a>
+        <a href="/admin/print/bg.asp?id=@orderId" title="In đơn hàng" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-print"></i> In</a>
+        <a href="email.asp?IDBG=@orderId" title="Gửi lại đơn hàng cho khách đặt hàng" class="btn btn-warning btn-sm"><i class="fa fa-envelope-o"></i> Gửi email</a>
+        <a href="/admin/quanlykho/dathang/list.asp" title="Quay lại danh sách" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Quay lại</a>
+    </div>
+</section>
+
+<div class="nav-tabs-custom">
+    <ul class="nav nav-tabs nav-maintab">
+        <li class="active"><a aria-expanded="true" data-toggle="tab" href="#maintab_1">Xem đơn hàng</a></li>
+        <li><a aria-expanded="true" data-toggle="tab" href="#maintab_2" class="loadlichsu">Lịch sử đặt hàng</a></li>
+        <li class=""><a aria-expanded="true" data-toggle="tab" href="#maintab_3" class="loadcongno">Theo dõi công nợ</a></li>
+    </ul>
+    <div class="tab-content noidungmaintab">
+        <div id="maintab_1" class="tab-pane active row wrap-table">
+
+            <section class="content">
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <h4><i class="icon fa fa-warning"></i> Thông báo!</h4>
+                    <p>Thời gian đặt hàng: 7/29/2025 8:33:45 AM.</p>
+                    <p>Địa chỉ IP đặt hàng: 115.78.226.125.</p>
+                    <p>Số báo giá: 26074634.</p>
+                    <p>Giá trị đơn đặt hàng: <font style="color:#F00; font-weight:bold">12,990,000đ</font>.</p>
+                    <div class="log"><b></b><span>7/31/2025 8:52:52 PM</span><p>Cập nhật thông tin khách đặt hàng</p></div>
+                    <div class="log"><b></b><span>7/31/2025 8:53:20 PM</span><p>Cập nhật thông tin khách đặt hàng</p></div>
+                    <div class="log"><b></b><span>7/31/2025 8:54:22 PM</span><p>Cập nhật iMac 24 inch M4 24GB/512GB giá <b>45,000,000đ</b></p></div>
+                </div>
+
+                <div class="row">
+                    <form class="form-horizontal" method="post" action="update.asp?act=@act&gdc=@gdc&IDBG=@orderId">
+                        <div class="col-md-4">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a aria-expanded="true" data-toggle="tab" href="#tab_1">Đơn hàng</a></li>
+                                    <li class=""><a aria-expanded="true" data-toggle="tab" href="#tab_2">Thanh toán</a></li>
+                                    <li class=""><a aria-expanded="true" data-toggle="tab" href="#tab_3">Lịch sử</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab_1" class="tab-pane active row wrap-table">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Khách đặt hàng</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-12">Số báo giá</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" name="SoBangBaoGia" value="26074634" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-12">Tên khách hàng</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" name="CustomerName" value="Nguyễn Văn A">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-12">Tel</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" name="Tel" maxlength="20" value="0908123456">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-12">Email</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" name="EmailAddress" maxlength="50" value="nguyenvana@email.com">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-12">Address</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" rows="3" cols="32" name="Address">123 Nguyễn Văn Linh, Quận 7, TP.HCM</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-12">Khách ghi chú</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" rows="3" cols="32" name="Notice">Giao hàng giờ hành chính</textarea>
+                                                </div>
+                                            </div>
+                                            <p class="lead">Ghi chú nội bộ</p>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" rows="3" cols="32" name="NoiDung">Khách hàng VIP, ưu tiên xử lý</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_2" class="tab-pane row wrap-table">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Hình thức thanh toán</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" value="cash" checked>
+                                                            Thanh toán tiền mặt
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" value="transfer">
+                                                            Chuyển khoản ngân hàng
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" value="credit">
+                                                            Thanh toán qua thẻ tín dụng
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" value="installment">
+                                                            Trả góp
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_3" class="tab-pane row wrap-table">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Lịch sử giao dịch</h3>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="col-sm-12">
+                                                <p>Thời gian đặt hàng: 7/29/2025 8:33:45 AM.</p>
+                                                <p>Địa chỉ IP đặt hàng: 115.78.226.125.</p>
+                                                <p>Số báo giá: 26074634.</p>
+                                                <p>Giá trị đơn đặt hàng: <font style="color:#F00; font-weight:bold">12,990,000đ</font>.</p>
+                                                <div class="log"><b></b><span>7/31/2025 8:52:52 PM</span><p>Cập nhật thông tin khách đặt hàng</p></div>
+                                                <div class="log"><b></b><span>7/31/2025 8:53:20 PM</span><p>Cập nhật thông tin khách đặt hàng</p></div>
+                                                <div class="log"><b></b><span>7/31/2025 8:54:22 PM</span><p>Cập nhật iMac 24 inch M4 24GB/512GB giá <b>45,000,000đ</b></p></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" class="btn pull-right btn-primary" name="Submit"><i class="fa fa-save"></i> Lưu trữ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-md-8">
+                        <div class="box box-primary wrap-table">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tên</th>
+                                        <th class="tdwidth70">S.lượng</th>
+                                        <th class="tdwidth80">Đơn giá</th>
+                                        <th class="tdwidth100">Giá bán</th>
+                                        <th class="tdwidth100">Ghi chú</th>
+                                        <th class="tdwidth100">Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <form name="frmSearch" method="post" action="add.asp?act=@act&gdc=@gdc&IDBG=@orderId">
+                                        <input type="hidden" value="262" name="IDDQ">
+                                        <input type="hidden" value="60005" name="MaMoi">
+                                        <tr>
+                                            <td>
+                                                <select class="form-control select2 chonmahang" placeholder="Tên hàng hóa" name="MaCu">
+                                                    <option value="60005" selected="selected">iMac 24 inch M4 24GB/512GB</option>
+                                                </select>
+                                            </td>
+                                            <td><input name="SoLuong" value="1" class="form-control"></td>
+                                            <td align="right">45,000,000</td>
+                                            <td><input value="45000000" name="DonGiaXuatKho" class="form-control"></td>
+                                            <td><input value="Hàng chính hãng" name="GhiChu" class="form-control"></td>
+                                            <td>
+                                                <button type="submit" name="Submit" class="btn btn-success" title="Cập nhật"><i class="fa fa-save"></i></button>
+                                                <a href="xoa.asp?act=@act&gdc=@gdc&IDBG=@orderId&IDDQ=262" class="btn btn-danger" title="Xoá"><i class="fa fa-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    </form>
+
+                                    <form name="frmSearch" method="post" action="add.asp?act=@act&gdc=@gdc&IDBG=@orderId">
+                                        <input type="hidden" value="263" name="IDDQ">
+                                        <input type="hidden" value="60004" name="MaMoi">
+                                        <tr>
+                                            <td>
+                                                <select class="form-control select2 chonmahang" placeholder="Tên hàng hóa" name="MaCu">
+                                                    <option value="60004" selected="selected">SingPC AIO M24Ei3128M5-W i3 12100/8GB/512GB/23.8"FullHD/Bàn phím/Chuột/Win11Pro</option>
+                                                </select>
+                                            </td>
+                                            <td><input name="SoLuong" value="1" class="form-control"></td>
+                                            <td align="right">15,500,000</td>
+                                            <td><input value="15500000" name="DonGiaXuatKho" class="form-control"></td>
+                                            <td><input value="Bảo hành 24 tháng" name="GhiChu" class="form-control"></td>
+                                            <td>
+                                                <button type="submit" name="Submit" class="btn btn-success" title="Cập nhật"><i class="fa fa-save"></i></button>
+                                                <a href="xoa.asp?act=@act&gdc=@gdc&IDBG=@orderId&IDDQ=263" class="btn btn-danger" title="Xoá"><i class="fa fa-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    </form>
+
+                                    <form name="frmSearch" method="post" action="add.asp?act=@act&gdc=@gdc&IDBG=@orderId">
+                                        <input type="hidden" value="265" name="IDDQ">
+                                        <input type="hidden" value="60017" name="MaMoi">
+                                        <tr>
+                                            <td>
+                                                <select class="form-control select2 chonmahang" placeholder="Tên hàng hóa" name="MaCu">
+                                                    <option value="60017" selected="selected">Điện thoại iPhone 16e 128GB</option>
+                                                </select>
+                                            </td>
+                                            <td><input name="SoLuong" value="2" class="form-control"></td>
+                                            <td align="right">25,990,000</td>
+                                            <td><input value="25990000" name="DonGiaXuatKho" class="form-control"></td>
+                                            <td><input value="Màu Titan Tự Nhiên" name="GhiChu" class="form-control"></td>
+                                            <td>
+                                                <button type="submit" name="Submit" class="btn btn-success" title="Cập nhật"><i class="fa fa-save"></i></button>
+                                                <a href="xoa.asp?act=@act&gdc=@gdc&IDBG=@orderId&IDDQ=265" class="btn btn-danger" title="Xoá"><i class="fa fa-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    </form>
+
+                                    <form name="frmSearch" method="post" action="add.asp?act=@act&gdc=@gdc&IDBG=@orderId">
+                                        <input type="hidden" value="266" name="IDDQ">
+                                        <input type="hidden" value="60053" name="MaMoi">
+                                        <tr>
+                                            <td>
+                                                <select class="form-control select2 chonmahang" placeholder="Tên hàng hóa" name="MaCu">
+                                                    <option value="60053" selected="selected">Điện thoại Samsung Galaxy S24 FE 5G 8GB/128GB</option>
+                                                </select>
+                                            </td>
+                                            <td><input name="SoLuong" value="1" class="form-control"></td>
+                                            <td align="right">12,990,000</td>
+                                            <td><input value="12990000" name="DonGiaXuatKho" class="form-control"></td>
+                                            <td><input value="Khuyến mãi tặng ốp lưng" name="GhiChu" class="form-control"></td>
+                                            <td>
+                                                <button type="submit" name="Submit" class="btn btn-success" title="Cập nhật"><i class="fa fa-save"></i></button>
+                                                <a href="xoa.asp?act=@act&gdc=@gdc&IDBG=@orderId&IDDQ=266" class="btn btn-danger" title="Xoá"><i class="fa fa-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    </form>
+
+                                    <form name="frmSearch" method="post" action="add.asp?act=@act&gdc=@gdc&IDBG=@orderId">
+                                        <tr>
+                                            <td>
+                                                <select class="form-control select2 chonmahang" placeholder="Tên hàng hóa" name="MaMoi">
+                                                    <option value="">Chọn sản phẩm...</option>
+                                                </select>
+                                            </td>
+                                            <td><input name="SoLuong" value="1" class="form-control"></td>
+                                            <td align="right">0</td>
+                                            <td align="right">0</td>
+                                            <td> </td>
+                                            <td><button type="submit" name="Submit" class="btn btn-danger btn-block"><i class="fa fa-save"></i> Thêm</button></td>
+                                        </tr>
+                                    </form>
+                                </tbody>
+                            </table>
+                            <div class="box-footer">
+                                <p class="lead col-md-4">Tổng cộng</p>
+                                <p class="lead col-md-8 pull-right right">151,460,000đ</p>
+                            </div>
+                            <div class="box-footer">
+                                <a class="btn pull-right btn-primary" href="email4.asp?act=@act&gdc=@gdc&IDBG=@orderId&id=151460000"><i class="fa fa-save"></i> Cho phép xử lý</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+        <div id="maintab_2" class="tab-pane row wrap-table">
+            <span class="chitietlichsu">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Lịch sử đặt hàng của khách</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ngày đặt</th>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Giá trị</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>29/07/2025</td>
+                                    <td>26074634</td>
+                                    <td>151,460,000đ</td>
+                                    <td><span class="label label-warning">Đang xử lý</span></td>
+                                </tr>
+                                <tr>
+                                    <td>15/07/2025</td>
+                                    <td>26074620</td>
+                                    <td>8,500,000đ</td>
+                                    <td><span class="label label-success">Đã hoàn thành</span></td>
+                                </tr>
+                                <tr>
+                                    <td>02/07/2025</td>
+                                    <td>26074588</td>
+                                    <td>25,990,000đ</td>
+                                    <td><span class="label label-success">Đã hoàn thành</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </span>
+        </div>
+        <div id="maintab_3" class="tab-pane row wrap-table">
+            <span class="chitietcongno">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Theo dõi công nợ khách hàng</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-aqua"><i class="fa fa-money"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Tổng dư nợ</span>
+                                        <span class="info-box-number">5,500,000đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-green"><i class="fa fa-check"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Đã thanh toán</span>
+                                        <span class="info-box-number">180,450,000đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Ngày</th>
+                                    <th>Nội dung</th>
+                                    <th>Phát sinh</th>
+                                    <th>Thanh toán</th>
+                                    <th>Dư nợ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>29/07/2025</td>
+                                    <td>Đơn hàng #26074634</td>
+                                    <td class="text-red">151,460,000đ</td>
+                                    <td>145,960,000đ</td>
+                                    <td class="text-red">5,500,000đ</td>
+                                </tr>
+                                <tr>
+                                    <td>15/07/2025</td>
+                                    <td>Đơn hàng #26074620</td>
+                                    <td class="text-red">8,500,000đ</td>
+                                    <td>8,500,000đ</td>
+                                    <td>0đ</td>
+                                </tr>
+                                <tr>
+                                    <td>02/07/2025</td>
+                                    <td>Đơn hàng #26074588</td>
+                                    <td class="text-red">25,990,000đ</td>
+                                    <td>25,990,000đ</td>
+                                    <td>0đ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+
+<span class="formthongbaopopupcenter"></span>
+<span class="formthongbaomoipopup"></span>
+<span id="boxes" style="display:none"></span>
+<div class="modal fade" id="thongbaoHeThongModal" tabindex="-1" role="dialog" aria-labelledby="thongbaoHeThongModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                <h5 class="modal-title" id="thongbaoHeThongModalLabel"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer box-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notification" class="notification position-fixed top-0 end-0 bg-primary text-white p-3 m-3 rounded" style="top: 20px; right: 20px; z-index: 999; display:none"></div>
