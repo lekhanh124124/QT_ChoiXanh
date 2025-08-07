@@ -9,7 +9,16 @@ namespace QT_ChoiXanh_2.Controllers.QuanLyLienHe
         [Route("form.asp")]
         public IActionResult Form()
         {
+            return View("Form");
+        }
+
+        [Route("edit.asp")]
+        public IActionResult Edit(int AutoID)
+        {
+            ViewBag.AutoId = AutoID;
             return View();
         }
     }
+
+
 }

@@ -1,0 +1,203 @@
+﻿@{
+    ViewData["Title"] = "QUẢN LÝ LIÊN HỆ - TRẢ LỜI";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var AutoId = ViewBag.AutoId ?? 0; 
+}
+
+<section class="content-header">
+    <h1>QUẢN LÝ LIÊN HỆ - TRẢ LỜI</h1>
+</section>
+
+<section class="content">
+    <form class="form-horizontal" name="FrmAdd" method="post" action="update.asp?act=3&gdc=3&AutoID=@AutoId">
+        <input type="hidden" name="IDLHGoc" value="">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Nội dung</a></li>
+                        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Phản hồi</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active row wrap-table" id="tab_1">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2">Họ tên</label>
+                                    <span class="col-sm-10">
+                                        <input name="CustomerName" class="form-control" id="customerName" readonly>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2">Email</label>
+                                    <span class="col-sm-10">
+                                        <input type="email" name="EmailAddress" class="form-control" id="emailAddress" readonly>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2">Địa chỉ</label>
+                                    <span class="col-sm-10">
+                                        <input name="Address" class="form-control" id="address" readonly>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2">Tel</label>
+                                    <span class="col-sm-10">
+                                        <input name="Tel" class="form-control" id="tel" readonly>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2">Nội dung</label>
+                                    <span class="col-sm-10">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div id="contactContent">
+                                                        <div class="thongtin"></div>
+                                                        <div class="noidung">
+                                                            <div class="hinhanh"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane row wrap-table" id="tab_2">
+                            <div class="box-body">
+                                <div id="responseContent">
+                                    Không có phản hồi
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Trả lời</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2">Cấu hình gửi mail</label>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="checkbox">
+                                            <label for="">
+                                                <input type="checkbox" value="1" name="cauhinhguimail" checked> Gửi trả lời cho người liên hệ
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2">Người gửi</label>
+                            <div class="col-sm-10">
+                                <input name="Nguoigui" class="form-control" value="Ban quan tri demodienmay.125.atoz.vn">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2">Tiêu đề thư</label>
+                            <div class="col-sm-10">
+                                <input name="Tieudethu" class="form-control" id="emailSubject">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2">Gửi tới email</label>
+                            <div class="col-sm-10">
+                                <input name="Emailnguoinhan" class="form-control" id="recipientEmail">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2">Nội dung trả lời</label>
+                            <div class="col-sm-10">
+                                <textarea rows="10" cols="50" name="NoiDungTraLoi" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>		
+                    <div class="box-footer">
+                        <input class="btn btn-info pull-right" type="submit" value="Gửi trả lời">
+                        <a class="btn btn-danger" href="delete.asp?act=3&gdc=3&AutoID=@AutoId">Xóa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            var autoId = @AutoId;
+            
+            if (autoId > 0) {
+                // Fetch contact details from API
+                $.ajax({
+                    url: 'https://localhost:44321/api/Generic/Table_Customer_Contact/' + autoId,
+                    type: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(response) {
+                        if (response) {
+                            console.log('Contact data loaded:', response);
+                            
+                            // Populate form fields
+                            $('#customerName').val(response.CustomerName || '');
+                            $('#emailAddress').val(response.EmailAddress || '');
+                            $('#address').val(response.Address || '');
+                            $('#tel').val(response.Tel || '');
+                            
+                            // Set recipient email for reply
+                            $('#recipientEmail').val(response.EmailAddress || '');
+                            
+                            // Set email subject with current date/time
+                            var now = new Date();
+                            var dateTimeStr = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear() + 
+                                            ' ' + now.getHours() + ':' + 
+                                            (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + ':' + 
+                                            (now.getSeconds() < 10 ? '0' : '') + now.getSeconds() + ' ' +
+                                            (now.getHours() >= 12 ? 'PM' : 'AM');
+                            $('#emailSubject').val('Re: Tra loi cua ban quan tri demodienmay.125.atoz.vn luc ' + dateTimeStr);
+                            
+                            // Display contact content (Notice field contains HTML)
+                            if (response.Notice) {
+                                $('#contactContent .noidung').html(response.Notice);
+                            } else {
+                                $('#contactContent .noidung').html('Không có nội dung');
+                            }
+                        } else {
+                            console.warn('No contact data found');
+                            alert('Không tìm thấy thông tin liên hệ');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading contact data:', error);
+                        console.error('Status:', status);
+                        console.error('Response:', xhr.responseText);
+                        alert('Lỗi khi tải thông tin liên hệ: ' + error);
+                    }
+                });
+            } else {
+                alert('ID liên hệ không hợp lệ');
+            }
+
+            // Handle form submission
+            $('form[name="FrmAdd"]').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Here you would typically send the reply data to your API
+                // For now, just show a confirmation
+                var confirmed = confirm('Bạn có chắc chắn muốn gửi trả lời này?');
+                if (confirmed) {
+                    // You can implement the actual API call here
+                    alert('Chức năng gửi trả lời sẽ được triển khai sau');
+                }
+            });
+        });
+    </script>
+}
