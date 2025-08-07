@@ -35,30 +35,42 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            // Disable jQuery cache globally for this page to prevent _ parameter
+            $.ajaxSetup({
+                cache: false
+            });
+            
             var table = $('#lienhe').DataTable({
                 "ajax": {
-                    "url": "https://gist.githubusercontent.com/lekhanh124124/77820b694b7dcd9718081944b16846cf/raw/4b3d3cf79258ad8c7a91670fbe69389852d25f58/quanlylienhe",
-                    "dataSrc": "data"
+                    "url": "https://localhost:44321/api/Generic/Table_Customer_Contact/filter?page=1&pageSize=100",
+                    "type": "GET",
+                    "dataSrc": "",
+                    "cache": false,
+                    "beforeSend": function(xhr, settings) {
+                        // Remove any cache-busting parameter that might be added
+                        settings.url = settings.url.replace(/[?&]_=\d+/, '');
+                        return true;
+                    }
                 },
                 "columns": [
-                    { "data": "id" },
-                    { "data": "nguoimua" },
+                    { "data": "AutoID" },
+                    { "data": "CustomerName" },
                     {
-                        "data": "thoigian",
+                        "data": "DateTime",
                         "render": function (data, type, row) {
                             if (type === 'display' || type === 'filter') {
-                                return moment(data, 'M/D/YYYY h:mm:ss A').format('DD/MM/YYYY HH:mm:ss');
+                                return moment(data).format('DD/MM/YYYY HH:mm:ss');
                             }
-                            return moment(data, 'M/D/YYYY h:mm:ss A').valueOf();
+                            return moment(data).valueOf();
                         }
                     },
-                    { "data": "ip" },
+                    { "data": "Remote_Add" },
                     {
-                        "data": "id",
+                        "data": "AutoID",
                         "render": function (data, type, row) {
-                            var id = row.id;
+                            var id = row.AutoID;
                             return `<a href="edit.asp?act=3&gdc=3&AutoID=${id}" title="Xem liên hệ" class="btn btn-xs btn-success"><i class="fa fa-eye"></i> Xem</a>
-                                    <a href="delete.asp?act=3&gdc=3&AutoID=${id}" title="Xóa liên hệ" class="btn btn-xs btn-danger"><i class="fa fa-shopping-cart"></i> Xóa</a>`;
+                                    <a href="delete.asp?act=3&gdc=3&AutoID=${id}" title="Xóa liên hệ" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Xóa</a>`;
                         }
                     }
                 ],
