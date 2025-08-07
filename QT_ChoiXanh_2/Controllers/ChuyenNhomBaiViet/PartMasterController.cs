@@ -17,5 +17,12 @@ namespace QT_ChoiXanh_2.Controllers.ChuyenNhomBaiViet
         {
             return View();
         }
+
+        [Route("register.asp")]
+        public IActionResult Register(int? IDPart)
+        {
+            ViewBag.IDPart = IDPart;
+            return View();
+        }
     }
 }

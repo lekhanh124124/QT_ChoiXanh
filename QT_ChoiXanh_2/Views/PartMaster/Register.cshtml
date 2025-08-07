@@ -1,0 +1,198 @@
+﻿@{
+    ViewData["Title"] = "Xác nhận chuyển nhóm bài viết chi tiết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var idPart = ViewBag.IDPart;
+}
+
+<div class="tieudechinh">
+    <div class="col-md-8">
+        <section class="content-header"><h1>XÁC NHẬN CHUYỂN NHÓM BÀI VIẾT CHI TIẾT</h1></section>
+    </div>
+    <div class="col-md-4 pull-right right">
+        <a href="down.asp?act=3&gdc=9" class="btn btn-success"><i class="fa fa-sign-out"></i> Export</a>
+    </div>
+</div>
+
+<form class="form-horizontal" name="updatebanner" method="post" action="add.asp?act=&gdc=&pageid=&IDPart=@idPart">
+    <div class="box">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="" class="col-sm-2">Chuyển đến nhóm</label>
+                <div class="col-sm-10">
+                    <select class="form-control select2" name="IDCategories" id="IDCategories">
+                        <option value="">Chọn nhóm mới...</option>
+                        <!-- Options will be populated dynamically if needed -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2">Tên (Title)</label>
+                <div class="col-sm-10">
+                    <input class="form-control" name="PartName" id="PartName" value="" maxlength="1000">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2">Từ khoá Tìm kiếm (Meta keywords)</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="Keywords" id="Keywords" class="input_data" rows="3" cols="52"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2">Mô tả tìm kiếm (Meta description)</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="Descriptions" id="Descriptions" class="input_data" rows="3" cols="52"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input class="btn btn-primary pull-right" type="submit" name="Submit" value="Lưu trữ">
+        </div>
+    </div>
+</form>
+
+<span class="formthongbaopopupcenter"></span>
+<span class="formthongbaomoipopup"></span>
+<span id="boxes" style="display:none"></span>
+<div class="modal fade" id="thongbaoHeThongModal" tabindex="-1" role="dialog" aria-labelledby="thongbaoHeThongModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>×</span></button>
+                <h5 class="modal-title" id="thongbaoHeThongModalLabel"></h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer box-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="notification" class="notification position-fixed top-0 end-0 bg-primary text-white p-3 m-3 rounded" style="top: 20px; right: 20px; z-index: 999; display:none"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var idPart = @(idPart ?? 0);
+            
+            if (idPart > 0) {
+                // Call proxy API to get article details (avoiding CORS issues)
+                $.ajax({
+                    url: 'https://localhost:44321/api/Generic/Table_Customer_PartMaster/' + idPart,
+                    type: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(response) {
+                        if (response) {
+                            // The response is directly the article data object
+                            var articleData = response;
+                            
+                            // Populate form fields with the retrieved data
+                            $('#PartName').val(articleData.PartName || '');
+                            $('#Keywords').val(articleData.Keywords || '');
+                            $('#Descriptions').val(articleData.Descriptions || '');
+                            
+                            console.log('Article data loaded:', articleData);
+                        } else {
+                            console.warn('No article data found');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading article data:', error);
+                        console.error('Status:', status);
+                        console.error('Response:', xhr.responseText);
+                    }
+                });
+            }
+
+            // Populate category options
+            var categoryOptions = [
+                { value: 'P35041', text: 'Bảng giá' },
+                { value: 'P35118', text: 'Cấu hình' },
+                { value: 'P35103', text: 'Công cụ' },
+                { value: 'P35139', text: 'Công nghệ' },
+                { value: 'P35149', text: 'Cười' },
+                { value: 'P35005', text: 'CV của ứng viên' },
+                { value: 'P35111', text: 'Đăng ký' },
+                { value: 'P35034', text: 'Đất bán' },
+                { value: 'P35035', text: 'Đất cho thuê' },
+                { value: 'P35040', text: 'Dịch vụ' },
+                { value: 'P35036', text: 'Điện thoại' },
+                { value: 'P35278', text: 'Điện thoại di động' },
+                { value: 'P35137', text: 'Doanh nghiệp' },
+                { value: 'P35129', text: 'Đơn gia nhập TuyenNhanSu' },
+                { value: 'P35144', text: 'Du lịch' },
+                { value: 'P35006', text: 'Gia sư' },
+                { value: 'P35142', text: 'Giải trí' },
+                { value: 'P35134', text: 'Giáo dục' },
+                { value: 'P35009', text: 'Giới thiệu' },
+                { value: 'P35031', text: 'Hồ sơ sinh viên' },
+                { value: 'P35123', text: 'Hotline liên hệ' },
+                { value: 'P35132', text: 'Hotline top đầu trang' },
+                { value: 'P35116', text: 'Hướng dẫn' },
+                { value: 'P35126', text: 'In ấn quảng cáo' },
+                { value: 'P35281', text: 'Khách hàng nhận xét' },
+                { value: 'P35150', text: 'Khoa học' },
+                { value: 'P35124', text: 'Khung kính, khung mica' },
+                { value: 'P35138', text: 'Kinh doanh' },
+                { value: 'P35015', text: 'Kinh nghiệm của ứng viên' },
+                { value: 'P35020', text: 'Kỹ năng của ứng viên' },
+                { value: 'P35284', text: 'Màn hình máy tính' },
+                { value: 'P35283', text: 'Máy lạnh' },
+                { value: 'P35037', text: 'Máy tính' },
+                { value: 'P35285', text: 'Máy Tính Bảng' },
+                { value: 'P35279', text: 'Máy vi tính' },
+                { value: 'P60114', text: 'Newsletter' },
+                { value: 'P35002', text: 'Newsletter' },
+                { value: 'P35017', text: 'Nhà bán' },
+                { value: 'P35033', text: 'Nhà cho thuê' },
+                { value: 'P35010', text: 'Quá trình đào tạo của ứng viên' },
+                { value: 'P35146', text: 'Quảng cáo trang chủ - Nhóm doanh nghiệp' },
+                { value: 'P35148', text: 'Quảng cáo trang chủ - Nhóm du lịch' },
+                { value: 'P35147', text: 'Quảng cáo trang chủ - Nhóm thể thao' },
+                { value: 'P35145', text: 'Quảng cáo trang chủ - nhóm thời sự' },
+                { value: 'P35119', text: 'Quy trình đăng ký' },
+                { value: 'P35003', text: 'Quy trình sinh viên khai báo hồ sơ' },
+                { value: 'P35131', text: 'Sản xuất quà tặng quảng cáo' },
+                { value: 'P60054', text: 'Slide' },
+                { value: 'P60058', text: 'Slide test' },
+                { value: 'P35140', text: 'Sức khỏe' },
+                { value: 'P60057', text: 'Test' },
+                { value: 'P35011', text: 'Thành viên TuyenNhanSu' },
+                { value: 'P35136', text: 'Thế giới' },
+                { value: 'P35141', text: 'Thể thao' },
+                { value: 'P35135', text: 'Thời sự' },
+                { value: 'P35039', text: 'Thông tin liên hệ' },
+                { value: 'P35021', text: 'Thông tin tham vấn của ứng viên' },
+                { value: 'P35012', text: 'Thông tin thêm của nhà tuyển dụng' },
+                { value: 'P35016', text: 'Thông tin thêm của ứng viên' },
+                { value: 'P35008', text: 'Thư viện ảnh' },
+                { value: 'P35125', text: 'Thư viện video' },
+                { value: 'P60056', text: 'Thương hiệu' },
+                { value: 'P35013', text: 'Tin tức' },
+                { value: 'P35280', text: 'Tivi' },
+                { value: 'P35128', text: 'Tranh xếp hình cá nhân' },
+                { value: 'P35127', text: 'Tranh xếp hình, đồ chơi ghép hình' },
+                { value: 'P35133', text: 'Tư vấn' },
+                { value: 'P35004', text: 'Tuyển nhân sự' },
+                { value: 'P35007', text: 'Văn phòng cho thuê' },
+                { value: 'P35122', text: 'Việc làm phù hợp với bạn' },
+                { value: 'P35143', text: 'Xe' }
+            ];
+
+            // Populate select options
+            var $select = $('#IDCategories');
+            $.each(categoryOptions, function(index, option) {
+                $select.append($('<option></option>').attr('value', option.value).text(option.text));
+            });
+
+            // Mark "Tin tức" as selected by default
+            $select.val('P35013');
+
+            // Initialize Select2 if available
+            if (typeof $().select2 === 'function') {
+                $select.select2();
+            }
+        });
+    </script>
+}

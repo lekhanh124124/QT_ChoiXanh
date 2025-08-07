@@ -54,80 +54,20 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-<<<<<<< Updated upstream
-            var drawCounter = 1; // Biến đếm draw counter
-            
-            var table = $('#danhsachyeucau').DataTable({
-                "serverSide": true, // Bật server-side processing
-=======
             var drawCounter = 1;
             
             var table = $('#danhsachyeucau').DataTable({
                 "processing": true,
                 "serverSide": true,
->>>>>>> Stashed changes
                 "ajax": {
                     "url": "https://demodienmay.125.atoz.vn/admin/api/web.danhsach.partmaster.asp",
                     "type": "GET",
                     "data": function(d) {
-<<<<<<< Updated upstream
-                        // Tính toán pageid dựa trên start và length
-                        var currentPage = Math.floor(d.start / d.length) + 1;
-                        
-                        // Xây dựng parameters theo định dạng yêu cầu của API
-                        var params = {
-                            'draw': drawCounter,
-                            'start': d.start,
-                            'length': d.length,
-                            'pageid': currentPage,
-                            'search[value]': d.search.value || '',
-                            'search[regex]': false,
-                            'order[0][column]': d.order[0].column || 0,
-                            'order[0][dir]': d.order[0].dir || 'asc'
-                        };
-                        
-                        // Thêm thông tin columns
-                        d.columns.forEach(function(column, index) {
-                            params['columns[' + index + '][data]'] = column.data;
-                            params['columns[' + index + '][name]'] = column.name || '';
-                            params['columns[' + index + '][searchable]'] = column.searchable;
-                            params['columns[' + index + '][orderable]'] = column.orderable;
-                            params['columns[' + index + '][search][value]'] = column.search.value || '';
-                            params['columns[' + index + '][search][regex]'] = column.search.regex || false;
-                        });
-                        
-                        return params;
-=======
-                        // Add custom parameters while keeping the original structure
+                        // Only add custom parameters that the API needs
                         d.draw = drawCounter;
                         d.pageid = Math.floor(d.start / d.length) + 1;
                         
-                        // Set fixed column definitions to match the original API
-                        d['columns[0][data]'] = 'id';
-                        d['columns[0][name]'] = '';
-                        d['columns[0][searchable]'] = true;
-                        d['columns[0][orderable]'] = true;
-                        d['columns[0][search][value]'] = '';
-                        d['columns[0][search][regex]'] = false;
-                        
-                        d['columns[1][data]'] = 'tieude';
-                        d['columns[1][name]'] = '';
-                        d['columns[1][searchable]'] = true;
-                        d['columns[1][orderable]'] = true;
-                        d['columns[1][search][value]'] = '';
-                        d['columns[1][search][regex]'] = false;
-                        
-                        d['columns[2][data]'] = 'idquanly';
-                        d['columns[2][name]'] = '';
-                        d['columns[2][searchable]'] = true;
-                        d['columns[2][orderable]'] = false;
-                        d['columns[2][search][value]'] = '';
-                        d['columns[2][search][regex]'] = false;
-                        
-                        d['search[regex]'] = false;
-                        
                         return d;
->>>>>>> Stashed changes
                     },
                     "dataSrc": function(json) {
                         // Increment draw counter for next request
@@ -148,7 +88,7 @@
                                 return `<a class="btn btn-default btn-xs" href="/Admin/QuanLyNhomDanhMuc?id=${id}" title="Quản lý nhóm danh mục"><i class="tdicon fa fa-folder-open-o"></i></a> <a href="/Admin/QuanLyNhomDanhMuc?id=${id}" title="Chuyển nhóm danh mục">Chuyển</a>`;
                             } else {
                                 return `<a class="btn btn-warning btn-xs" href="/Admin/Part/Edit?IDPart=${id}" title="Sửa bài viết"><i class="tdicon fa fa-edit"></i></a>
-                                        <a class="btn btn-success btn-xs" href="/Admin/Part/ChuyenBaiViet?IDPart=${id}" title="Chuyển bài viết"><i class="tdicon fa fa-exchange"></i></a>
+                                        <a class="btn btn-success btn-xs" href="/admin/part/partmaster/register.asp?IDPart=${id}" title="Chuyển bài viết"><i class="tdicon fa fa-exchange"></i></a>
                                         <a class="btn btn-danger btn-xs divreload" href="javascript:void(0)" data-fancybox data-type="ajax" data-src="/Admin/Part/Delete?IDPart=${id}" title="Xóa bài viết"><i class="fa fa-close"></i></a>`;
                             }
                         }
@@ -183,15 +123,10 @@
 
             // Hàm choose để thay đổi pageid - cập nhật để sử dụng với server-side processing
             window.choose = function(loai) {
-<<<<<<< Updated upstream
-                // Reset về trang đầu khi thay đổi pageid filter
-                table.page(0).draw('page');
-=======
                 // Jump to specific page
                 var pageLength = table.page.len();
                 var targetPage = loai - 1; // DataTables uses 0-based indexing
                 table.page(targetPage).draw('page');
->>>>>>> Stashed changes
             };
         });
     </script>
