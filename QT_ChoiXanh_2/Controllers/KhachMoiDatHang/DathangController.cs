@@ -13,12 +13,12 @@ namespace QT_ChoiXanh_2.Controllers.KhachMoiDatHang
         }
 
         [Route("admin/quanlykho/dathang/register.asp")]
-        public IActionResult XuLyDatHang(int act, int gdc, int IDBG)
+        public IActionResult XuLyDatHang(int IDBG, int act = 4, int gdc = 4)
         {
-            ViewBag.OrderId = IDBG;
+            ViewBag.IDBG = IDBG;
             ViewBag.Act = act;
             ViewBag.Gdc = gdc;
-            return View("XuLyDatHang");
+            return View();
         }
     }
 }
